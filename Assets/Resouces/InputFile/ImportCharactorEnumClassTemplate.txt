@@ -1,0 +1,7 @@
+public enum #ENUMCLASS_NAME#
+{
+    Idle,
+    Move,
+    Die,
+    Attack,
+}

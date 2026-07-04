@@ -1,0 +1,31 @@
+using UnityEngine;
+
+public class #CLASS_NAME# : StateMachine<#CLASS_NAME#, #ENUMCLASS_NAME#>
+{
+    private #VIEWCLASS_NAME# #VIEWCLASS_NAME_TOLOWER_CASE#;
+
+
+    private void Awake()
+    {
+        #VIEWCLASS_NAME_TOLOWER_CASE# = GetComponent<#VIEWCLASS_NAME#>();
+
+        //Stateクラスの追加
+        stateList.Add(new #ENUMCLASS_NAME#Idle(this, #VIEWCLASS_NAME_TOLOWER_CASE#));
+        stateList.Add(new #ENUMCLASS_NAME#Move(this, #VIEWCLASS_NAME_TOLOWER_CASE#));
+        stateList.Add(new #ENUMCLASS_NAME#Die(this, #VIEWCLASS_NAME_TOLOWER_CASE#));
+    }
+    void Start()
+    {
+        
+    }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+    
+    public void ChangeStateCall(#STATE_NAME# #STATE_NAME_TOLOWER_CASE#)
+    {
+        base.ChangeState(stateList[(int)#STATE_NAME_TOLOWER_CASE#]);
+    }
+}

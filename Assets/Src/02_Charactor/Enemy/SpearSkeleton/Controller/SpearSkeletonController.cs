@@ -1,0 +1,49 @@
+using UnityEngine;
+
+public class SpearSkeletonController : StateMachine<SpearSkeletonController, SpearSkeletonState>
+{
+    public GameObject targetObject;
+    private SpearSkeletonViewController spearSkeletonViewController;
+
+    public Rigidbody2D rigidbody2D { get; private set; }
+    public Vector2 moveVectol { get; private set; }
+    public float distanceDifference { get; private set; }
+    public float distanceDifferenceLimit { get; private set; } = 0.1f;
+
+    private Vector2 toTargetDistance;
+
+    private void Awake()
+    {
+        spearSkeletonViewController = GetComponent<SpearSkeletonViewController>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
+
+        //Stateクラスの追加
+        stateList.Add(new SpearSkeletonStateIdle(this, spearSkeletonViewController));
+        stateList.Add(new SpearSkeletonStateMove(this, spearSkeletonViewController));
+        stateList.Add(new SpearSkeletonStateDie(this, spearSkeletonViewController));
+    }
+    void Start()
+    {
+        ChangeStateCall(SpearSkeletonState.Idle);
+    }
+
+    public override void Update()
+    {
+        //ターゲットとの距離を計算
+        toTargetDistance = targetObject.transform.position - gameObject.transform.position;
+        moveVectol = toTargetDistance.normalized;
+        distanceDifference = toTargetDistance.sqrMagnitude;
+
+        base.Update();
+    }
+
+    public void ChangeStateCall(SpearSkeletonState spearSkeletonState)
+    {
+        base.ChangeState(stateList[(int)spearSkeletonState]);
+    }
+
+    public void ChangeStateCall(SlimeState slimeState)
+    {
+        base.ChangeState(stateList[(int)slimeState]);
+    }
+}

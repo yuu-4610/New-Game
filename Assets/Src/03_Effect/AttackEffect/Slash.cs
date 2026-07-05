@@ -34,18 +34,19 @@ public class Slash : MonoBehaviour, IEffectParameter
 
         coolTimeCount += Time.deltaTime;
 
-        
         if (coolTimeCount >= coolTime)
         {
             Execute();
+            //現在のアニメーションのステートを取得ー＞想定：Attack
+            animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
             //再生されているアニメーションが指定のものかつ、90%終わっているなら終了処理を行う
-            if (animatorStateInfo.IsName(AttackEffectAnimatorName.Attack.ToString()) && animatorStateInfo.normalizedTime > 0.8f)
+            if (animatorStateInfo.IsName(AttackEffectAnimatorName.Attack.ToString()) && animatorStateInfo.normalizedTime > 0.9f) // && animatorStateInfo.normalizedTime > 0.9f
             {
                 Debug.Log("再生できました。");
-                ////アニメーションを終了する
-                //animator.SetBool(AttackEffectAnimationTriggerName.AttackBool.ToString(), false);
-                ////クールタイムのカウントをリセット
-                //coolTimeCount = 0f;
+                //アニメーションを終了する
+                animator.SetBool(AttackEffectAnimationTriggerName.AttackBool.ToString(), false);
+                //クールタイムのカウントをリセット
+                coolTimeCount = 0f;
             }
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public static class PathHelper
@@ -13,8 +14,9 @@ public static class PathHelper
             case ResourcePath.BGM: return @"Audio\BGM";
             case ResourcePath.SE: return @"Audio\SE";
             case ResourcePath.enemyClassStorageLocation: return @"Src\02_Charactor\Enemy"; //エネミークラスのファイルを作成するディレクトリの先頭
-            case ResourcePath.importFileStorageLocation: return @"Resouces\InputFile"; //テンプレートファイルのディレクトリ
-            case ResourcePath.enumFileAndStorageLocation: return @"Src\05_System\Enum\CharactorStateEnum.cs"; //追記するEnumクラス
+            case ResourcePath.importFileStorageLocation: return @"Resources\ImportFile"; //テンプレートファイルのディレクトリ
+            case ResourcePath.enumFileAndStorageLocation: return @"Src\05_System\Enum"; //追記するEnumクラス
+            case ResourcePath.importCSVFileStrageLocation: return @"ImportCSV";
             default: return "";
         }
     }

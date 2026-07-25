@@ -1,14 +1,16 @@
 using UnityEngine;
 
-public class SkeletonController : StateMachine<SkeletonController, SkeletonState>
+public class SkeletonController : StateMachine<SkeletonController, SkeletonState>, IEnemy
 {
-    public GameObject targetObject;
+    private GameObject targetObject;
     private SkeletonViewController SkeletonViewController;
     public Rigidbody2D rigidbody2D { get; private set; }
 
     public Vector2 moveVectol { get; private set; }
     public float distanceDifference { get; private set; }
     public float distanceDifferenceLimit { get; private set; } = 0.1f;
+
+    private float hp;
 
     private Vector2 toTargetDistance;
 
@@ -31,6 +33,7 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
     // Update is called once per frame
     public override void Update()
     {
+        Debug.Log(targetObject.name);
         //ターゲットとの距離を計算
         toTargetDistance = targetObject.transform.position - gameObject.transform.position;
         moveVectol = toTargetDistance.normalized;
@@ -42,5 +45,20 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
     public void ChangeStateCall(SkeletonState skeletonState)
     {
         base.ChangeState(stateList[(int)skeletonState]);
+    }
+    public void TakeDamage(float damage)
+    {
+        //HPを減らす
+        hp -= damage;
+
+        if(hp <= 0)
+        {
+            ChangeStateCall(SkeletonState.Die);
+        }
+    }
+    public void SetTargetObject(GameObject targetObject)
+    {
+        Debug.Log(targetObject.name);
+        this.targetObject = targetObject;
     }
 }

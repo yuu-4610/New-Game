@@ -20,16 +20,14 @@ public class SkeletonStateIdle : State<SkeletonController>
 
         if (owner.distanceDifference > owner.distanceDifferenceLimit)
         {
-            Debug.Log("Moveへ遷移");
             owner.ChangeStateCall(SkeletonState.Move);
         }
 
-        Debug.Log("StateIdle");
     }
 
     //別ステートへ遷移時に処理されるメソッド
     public override void Exit() 
     {
-        Debug.Log("移動");
+        
     }
 }

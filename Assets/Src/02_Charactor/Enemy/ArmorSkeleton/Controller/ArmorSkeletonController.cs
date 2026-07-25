@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class ArmorSkeletonController : StateMachine<ArmorSkeletonController, ArmorSkeletonState>
+public class ArmorSkeletonController : StateMachine<ArmorSkeletonController, ArmorSkeletonState>, IEnemy
 {
+    private GameObject targetObject;
     private ArmorSkeletonViewController armorSkeletonViewController;
 
 
@@ -26,5 +27,14 @@ public class ArmorSkeletonController : StateMachine<ArmorSkeletonController, Arm
     public void ChangeStateCall(ArmorSkeletonState armorSkeletonState)
     {
         base.ChangeState(stateList[(int)armorSkeletonState]);
+    }
+
+    public void TakeDamage(float damage)
+    {
+
+    }
+    public void SetTargetObject(GameObject targetObject)
+    {
+        this.targetObject = targetObject;
     }
 }

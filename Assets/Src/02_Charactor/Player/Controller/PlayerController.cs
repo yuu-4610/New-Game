@@ -28,6 +28,8 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>
         //Stateクラスの追加
         stateList.Add(new PlayerStateIdle(this, playerInputActions, playerViewController));
         stateList.Add(new PlayerStateMove(this, characterController, playerInputActions, playerViewController));
+
+        ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), this.gameObject);
     }
     private void OnEnable()
     {
@@ -51,7 +53,7 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>
         //継承元クラスのUpdate()を実行
         base.Update();
 
-        Debug.Log($"base.currentState{base.currentState}");
+        //Debug.Log($"base.currentState{base.currentState}");
     }
 
     //

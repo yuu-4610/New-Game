@@ -3,6 +3,7 @@ using UnityEngine;
 public class SkeletonViewController : MonoBehaviour
 {
     private Animator animator;
+    private AnimatorStateInfo animtorStateInfo;
     private bool isRigthDirectionFacing, isLeftDirectionFacing = default;
 
 
@@ -17,8 +18,8 @@ public class SkeletonViewController : MonoBehaviour
 
     public void SkeletonIdleAnimation()
     {
-        animator.SetBool(SkeletonAnimationTriggerName.MoveBool.ToString(), false);
-        Debug.Log("Idleアニメーション");
+        animator.SetBool(EnemyAnimationTriggerName.MoveBool.ToString(), false);
+        animator.SetBool(EnemyAnimationTriggerName.DieBool.ToString(), false);
     }
 
     public void SkeletonMoveAnimation(float directionFacing)
@@ -39,7 +40,17 @@ public class SkeletonViewController : MonoBehaviour
 
             //Debug.Log($"左向き R：{isRigthDirectionFacing} L：{isLeftDirectionFacing} Rotate：{transform.rotation}");
         }
-        animator.SetBool(SkeletonAnimationTriggerName.MoveBool.ToString(), true);
-        Debug.Log("Moveアニメーション");
+        animator.SetBool(EnemyAnimationTriggerName.MoveBool.ToString(), true);
+    }
+    public void SkeletonDieAnimation()
+    {
+        animator.SetBool(EnemyAnimationTriggerName.DieBool.ToString(), true);
+    }
+
+    public AnimatorStateInfo GetStateInfo()
+    {
+        animtorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        return animtorStateInfo;
     }
 }

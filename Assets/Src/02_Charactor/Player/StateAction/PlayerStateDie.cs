@@ -10,7 +10,7 @@ public class PlayerStateDie : State<PlayerController>
 
     public override void Enter()
     {
-
+        
     }
 
     public override void Execute()

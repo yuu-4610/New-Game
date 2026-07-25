@@ -13,7 +13,7 @@ public class SlimeViewController : MonoBehaviour
     // Update is called once per frame
     public void SlimeAnimationIdle()
     {
-        animator.SetBool(SlimeAnimationTriggerName.MoveBool.ToString(), false);
+        animator.SetBool(EnemyAnimationTriggerName.MoveBool.ToString(), false);
     }
 
     public void SlimeAnimationMove(float directionFacing)
@@ -34,7 +34,7 @@ public class SlimeViewController : MonoBehaviour
 
             //Debug.Log($"ç∂å¸Ç´ RÅF{isRigthDirectionFacing} LÅF{isLeftDirectionFacing} RotateÅF{transform.rotation}");
         }
-        animator.SetBool(SlimeAnimationTriggerName.MoveBool.ToString(), true);
+        animator.SetBool(EnemyAnimationTriggerName.MoveBool.ToString(), true);
     }
 
     public void SlimeAnimationDie()

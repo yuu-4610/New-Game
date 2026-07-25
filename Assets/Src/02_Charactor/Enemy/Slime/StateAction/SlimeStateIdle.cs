@@ -20,7 +20,7 @@ public class SlimeStateIdle : State<SlimeController>
 
         if (owner.distanceDifference > owner.distanceDifferenceLimit)
         {
-            Debug.Log("Move‚Ö‘JˆÚ");
+            
             owner.ChangeStateCall(SlimeState.Move);
         }
     }

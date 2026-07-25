@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class SlimeController : StateMachine<SlimeController, SlimeState>
+public class SlimeController : StateMachine<SlimeController, SlimeState>, IEnemy
 {
-    public GameObject targetObject;
+    private GameObject targetObject;
     private SlimeViewController slimeViewController;
     public Rigidbody2D rigidbody2D { get; private set; }
     public Vector2 moveVectol { get; private set; }
@@ -42,5 +42,13 @@ public class SlimeController : StateMachine<SlimeController, SlimeState>
     public void ChangeStateCall(SlimeState slimeState)
     {
         base.ChangeState(stateList[(int)slimeState]);
+    }
+    public void TakeDamage(float damage)
+    {
+
+    }
+    public void SetTargetObject(GameObject targetObject)
+    {
+        this.targetObject = targetObject;
     }
 }

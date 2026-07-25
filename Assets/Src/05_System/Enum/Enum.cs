@@ -23,14 +23,14 @@ public enum GenerateParentObjectName
 //オブジェクトに設定するtag名
 public enum TagName
 {
-    Piece, //ピースオブジェクトに付与
+    
 }
 
 
 //取得するオブジェクト名
 public enum AcquisitionObjectName
 {
-    ObjectFactory,
+    Player,
 }
 
 //Resourcesフォルダから見たAudio資材のパス変数
@@ -41,6 +41,7 @@ public enum ResourcePath
     enemyClassStorageLocation, //生成するエネミークラスパス
     importFileStorageLocation,
     enumFileAndStorageLocation, //追記するEnumクラスのパス
+    importCSVFileStrageLocation,
 }
 
 //AudioMixerのGroupName
@@ -56,27 +57,28 @@ public enum AudioFileName
     
 }
 
-public enum poolObjectName
+public enum AttackEffectObjectPoolName
 {
     slashEffect,
+}
+public enum EnemyObjectPoolName
+{
+    Skeleton,
 }
 
 
 public enum PlayerAnimationTriggerName
 {
     MoveBool,
-    DieTrigger,
+    DieBool,
 }
 
-public enum SkeletonAnimationTriggerName
+public enum EnemyAnimationTriggerName
 {
     MoveBool,
+    DieBool,
 }
 
-public enum SlimeAnimationTriggerName
-{
-    MoveBool,
-}
 
 public enum AttackEffectAnimationTriggerName
 {
@@ -86,13 +88,22 @@ public enum AttackEffectAnimatorName
 {
     Attack,
 }
+public enum EnemyAnimatorStateName
+{
+    Attack,
+    Die,
+}
 
-public enum InporTextFileName
+public enum ImporTextFileName
 {
     ImportCharactorControllerTemplate,
     ImportCharactorViewControllerTemplate,
     ImportCharactorEnumClassTemplate,
     ImportCharactorStateActionTemplate,
+}
+public enum ImportCSVFileName
+{
+    PopPattern,
 }
 
 public enum RewiteValueName

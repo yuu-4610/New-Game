@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlTypes;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -6,7 +7,7 @@ using static Unity.VisualScripting.Member;
 
 public class GenerateCharactorProcess
 {
-    private StateActionTemplateContent stateActionTemplateContent;
+    private CharactorClassFileTemplateContent charactorClassFileTemplateContent;
 
     private string charactorName = default; //指定したキャラクター名で生成する
     private string charactorFolderPath = default; //キャラクター名のフォルダ
@@ -15,8 +16,10 @@ public class GenerateCharactorProcess
     private string inputTextFileStorageLocation = default; //読み込むテンプレートファイルのフルパス
 
 
-    public string[] fileNames { get; private set; } = default;
-
+    public string[] controllerFileContentFileNames { get; private set; } = default; //Controllerクラスに書き込むクラス名
+    public string[] viewControllerFileContentFileNames { get; private set; } = default; //ViewControllerクラスに書き込むクラス名
+    public string[] stateActionFileContentFileNames { get; private set; } = default; //StateActionクラスに書き込むクラス名
+    public string CharactorStateName;
 
     private bool isFirstProcessCheck = default;
     
@@ -30,18 +33,27 @@ public class GenerateCharactorProcess
 
     private void Initialize()
     {
-        stateActionTemplateContent = new StateActionTemplateContent(PathHelper.ToName(ResourcePath.importFileStorageLocation));
+        charactorClassFileTemplateContent = new CharactorClassFileTemplateContent(PathHelper.ToName(ResourcePath.importFileStorageLocation));
 
-        //テンプレート内にある指定値の変換用
-        var stateActionName = $"{charactorName}State";
         //Controllerクラスの名前を指定
         var controllerClassName = $"{charactorName}Controller";
         //ViewControllerクラスの名前を指定
         var viewControllerClassName = $"{charactorName}ViewController";
         //ViewControllerクラスの変数名を指定
         var variableViewClassName = char.ToLower(viewControllerClassName[0]) + viewControllerClassName.Substring(1);
+        //StateのEnum名を指定
+        var stateEnumName = $"{charactorName}State";
+        //テンプレート内にある指定値の変換用
+        var stateActionName = $"{charactorName}State";
+        //StateAcionクラスの変数名を指定
+        var variableStateActionName = char.ToLower(stateActionName[0]) + stateActionName.Substring(1);
 
-        fileNames = new string[] { stateActionName, controllerClassName, viewControllerClassName, variableViewClassName };
+
+        controllerFileContentFileNames = new string[] { controllerClassName, viewControllerClassName, variableViewClassName, stateEnumName, stateActionName, variableStateActionName };
+        viewControllerFileContentFileNames = new string[] { viewControllerClassName , charactorName };
+        stateActionFileContentFileNames = new string[] { stateActionName, controllerClassName, viewControllerClassName, variableViewClassName };
+        CharactorStateName = stateEnumName;
+
     }
 
     public void GenerateCharactor()
@@ -76,53 +88,21 @@ public class GenerateCharactorProcess
 
         //Controllerファイルの保存先の指定
         var savePathFolder = Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.enemyClassStorageLocation), charactorFolderPath, "Controller");
-        Directory.CreateDirectory(savePathFolder);
 
-        //生成するControllerクラスのパスを指定
-        var controllerFileName = Path.Combine(savePathFolder, $"{charactorName}Controller.cs");
-        var viewControllerFileName = Path.Combine(savePathFolder, $"{charactorName}ViewController.cs");
-        //CharactorStateEnum.csの指定
-        var enumFileDirectory = Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.enumFileAndStorageLocation));
-
-        //テンプレート内にある指定値の変換用
-        //Controllerクラスの名前を指定
-        var controllerClassName = $"{charactorName}Controller";
-        //ViewControllerクラスの名前を指定
-        var viewControllerClassName = $"{charactorName}ViewController";
-        //ViewControllerクラスの変数名を指定
-        var variableViewClassName = char.ToLower(viewControllerClassName[0]) + viewControllerClassName.Substring(1);
-        //StateのEnum名を指定
-        var stateEnumName = $"{charactorName}State";
-        //テンプレート内にある指定値の変換用
-        var stateActionName = $"{charactorName}State";
-        //StateAcionクラスの変数名を指定
-        var variableStateActionName = char.ToLower(stateActionName[0]) + stateActionName.Substring(1);
 
         //----------------------------Contorllerクラスの生成----------------------------//
+        ControllerClassGenerate(savePathFolder, controllerFileContentFileNames);
 
-        //テンプレートファイルの読み込み
-        inputTextFileStorageLocation = Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.importFileStorageLocation), $"{InporTextFileName.ImportCharactorControllerTemplate}.txt");
-        //テキストファイルの書き換え
-        var controllerClasstextContent = ControllerClassTemplateFileContentRewite(controllerClassName, viewControllerClassName, variableViewClassName, stateEnumName, stateActionName, variableStateActionName);
-
-        //C#クラスの生成
-        File.WriteAllText($"{controllerFileName}", controllerClasstextContent);
 
         //----------------------------ViewContorllerクラスの生成----------------------------//
         //テンプレートファイルの読み込み
-        inputTextFileStorageLocation = Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.importFileStorageLocation), $"{InporTextFileName.ImportCharactorViewControllerTemplate}.txt");
-        var viewControllerClasstextContent = ViewControllerClassTemplateFileContentRewite(viewControllerClassName, charactorName);
+        ViewControllerClassGenerate(savePathFolder, viewControllerFileContentFileNames);
 
-        //C#クラスの生成
-        File.WriteAllText($"{viewControllerFileName}", viewControllerClasstextContent);
 
         //----------------------------Enumへの書き込み----------------------------//
         //テンプレートファイルの読み込み
-        inputTextFileStorageLocation = Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.importFileStorageLocation), $"{InporTextFileName.ImportCharactorEnumClassTemplate}.txt");
-        var enumClassTextContent = EnemyStateENumClassTemplateFileContentReWite(stateEnumName);
+        EnemyStateEnumClassGenerate(Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.enumFileAndStorageLocation)), CharactorStateName);
 
-        //C#クラスの生成
-        File.AppendAllText(enumFileDirectory, enumClassTextContent);
 
         isFirstProcessCheck = true;
         Debug.Log($"Controllerクラス生成完了");
@@ -138,19 +118,19 @@ public class GenerateCharactorProcess
 
 
         //----------------------------StateIdleクラスの生成----------------------------//
-        StateActionIdleClassGenerate(savePathFolder, fileNames);
+        StateActionIdleClassGenerate(savePathFolder, stateActionFileContentFileNames);
 
 
         //----------------------------StateMoveクラスの生成----------------------------//
-        StateActionMoveClassGenerate(savePathFolder, fileNames);
+        StateActionMoveClassGenerate(savePathFolder, stateActionFileContentFileNames);
 
 
         //----------------------------StateDieクラスの生成----------------------------//
-        StateActionDieClassGenerate(savePathFolder, fileNames);
+        StateActionDieClassGenerate(savePathFolder, stateActionFileContentFileNames);
 
 
         //----------------------------StateAttackクラスの生成----------------------------//
-        StateActionAttackClassGenerate(savePathFolder, fileNames);
+        StateActionAttackClassGenerate(savePathFolder, stateActionFileContentFileNames);
 
 
         Debug.Log($"StateActionクラス生成完了");
@@ -159,43 +139,42 @@ public class GenerateCharactorProcess
 
 
     //InputCharactorController.txt内にある指定値を変換する
-    private string ControllerClassTemplateFileContentRewite(string controllerName, string viewControllerName, string variableViewClassName, string enumName, string stateActionName, string variableStateActionName)
+    public void ControllerClassGenerate(string saveFileDirectory, string[] fileNames)
     {
-        //ファイルを読み込む
-        var textInput = File.ReadAllText(inputTextFileStorageLocation);
+        //指定した先にフォルダが存在しなければ作成する
+        DirectoryMessage(saveFileDirectory);
 
-        //指定値の変換
-        textInput = textInput.Replace($"#{RewiteValueName.CLASS_NAME}#", $"{controllerName}");
-        textInput = textInput.Replace($"#{RewiteValueName.VIEWCLASS_NAME}#", $"{viewControllerName}");
-        textInput = textInput.Replace($"#{RewiteValueName.VIEWCLASS_NAME_TOLOWER_CASE}#", $"{variableViewClassName}");
-        textInput = textInput.Replace($"#{RewiteValueName.ENUMCLASS_NAME}#", $"{enumName}");
-        textInput = textInput.Replace($"#{RewiteValueName.STATE_NAME}#", $"{stateActionName}");
-        textInput = textInput.Replace($"#{RewiteValueName.STATE_NAME_TOLOWER_CASE}#", $"{variableStateActionName}");
+        //新規作成するファイルのフルパスを指定
+        var savePathFolder = Path.Combine(saveFileDirectory, $"{charactorName}Controller.cs");
 
-        return textInput;
+        var controllerClassTextContent = charactorClassFileTemplateContent.ControllerClassFileGenerate(fileNames);
+
+        //C#クラスの生成
+        File.WriteAllText(savePathFolder, controllerClassTextContent);
     }
     //InputCharactorViewController.txt内にある指定値を変換する
-    private string ViewControllerClassTemplateFileContentRewite(string viewControllerName, string charactorName)
+    public void ViewControllerClassGenerate(string saveFileDirectory, string[] fileNames)
     {
-        //ファイルを読み込む
-        var textInput = File.ReadAllText(inputTextFileStorageLocation);
+        //指定した先にフォルダが存在しなければ作成する
+        DirectoryMessage(saveFileDirectory);
 
-        //指定値の変換
-        textInput = textInput.Replace($"#{RewiteValueName.VIEWCLASS_NAME}#", $"{viewControllerName}");
-        textInput = textInput.Replace($"#{RewiteValueName.CHARACTOR_NAME}#", $"{charactorName}");
+        var savePathFolder = Path.Combine(saveFileDirectory, $"{charactorName}ViewController.cs");
 
-        return textInput;
+        var viewControllerClassTextContent = charactorClassFileTemplateContent.ViewControllerClassFileGenerate(fileNames);
+
+        File.WriteAllText(savePathFolder, viewControllerClassTextContent);
     }
     //InputCharactorEnumClass.txt内にある指定値を変換する
-    private string EnemyStateENumClassTemplateFileContentReWite(string enumName)
+    public void EnemyStateEnumClassGenerate(string saveFileDirectory, string charactorStateName)
     {
-        //ファイルを読み込む
-        var textInput = File.ReadAllText(inputTextFileStorageLocation);
+        //指定した先にフォルダが存在しなければ作成する
+        DirectoryMessage(saveFileDirectory);
 
-        //指定値の変換
-        textInput = textInput.Replace($"#{RewiteValueName.ENUMCLASS_NAME}#", $"{enumName}");
+        var savePathFolder = Path.Combine(saveFileDirectory, $"CharactorStateEnum.cs");
 
-        return textInput;
+        var enumClassTextContent = charactorClassFileTemplateContent.EnumClassFileRewirte(charactorStateName);
+
+        File.AppendAllText(savePathFolder, enumClassTextContent);
     }
 
 
@@ -203,21 +182,13 @@ public class GenerateCharactorProcess
     public void StateActionIdleClassGenerate(string saveFileDirectory, string[] fileNames)
     {
         //指定した先にフォルダが存在しなければ作成する
-        if (!Directory.Exists(saveFileDirectory))
-        {
-            Directory.CreateDirectory(saveFileDirectory);
-            Debug.Log("ディレクトリを生成しました");
-        }
-        else
-        {
-            Debug.Log("ディレクトリは既に存在します");
-        }
+        DirectoryMessage(saveFileDirectory);
 
         //新規作成するファイルのフルパスを指定
         var savePathFolder = Path.Combine(saveFileDirectory, $"{charactorName}StateIdle.cs");
 
-        //テンプレートファイルの読み込み
-        var stateActionIdleClassTextContent = stateActionTemplateContent.ClassFileGenerate($"{fileNames[0]}Idle", fileNames[1], fileNames[2], fileNames[3]);
+        //テンプレートファイルの書き込み
+        var stateActionIdleClassTextContent = charactorClassFileTemplateContent.StateActionClassFileGenerate($"{fileNames[0]}Idle", fileNames[1], fileNames[2], fileNames[3]);
 
         //C#クラスの生成
         File.WriteAllText(savePathFolder, stateActionIdleClassTextContent);
@@ -226,21 +197,13 @@ public class GenerateCharactorProcess
     public void StateActionMoveClassGenerate(string saveFileDirectory, string[] fileNames)
     {
         //指定した先にフォルダが存在しなければ作成する
-        if (!Directory.Exists(saveFileDirectory))
-        {
-            Directory.CreateDirectory(saveFileDirectory);
-            Debug.Log("ディレクトリを生成しました");
-        }
-        else
-        {
-            Debug.Log("ディレクトリは既に存在します");
-        }
+        DirectoryMessage(saveFileDirectory);
 
         //新規作成するファイルのフルパスを指定
         var savePathFolder = Path.Combine(saveFileDirectory, $"{charactorName}StateMove.cs");
 
         //テンプレートファイルの読み込み
-        var stateActionIdleClassTextContent = stateActionTemplateContent.ClassFileGenerate($"{fileNames[0]}Move", fileNames[1], fileNames[2], fileNames[3]);
+        var stateActionIdleClassTextContent = charactorClassFileTemplateContent.StateActionClassFileGenerate($"{fileNames[0]}Move", fileNames[1], fileNames[2], fileNames[3]);
 
         //C#クラスの生成
         File.WriteAllText(savePathFolder, stateActionIdleClassTextContent);
@@ -248,15 +211,7 @@ public class GenerateCharactorProcess
     public void StateActionDieClassGenerate(string saveFileDirectory, string[] fileNames)
     {
         //指定した先にフォルダが存在しなければ作成する
-        if (!Directory.Exists(saveFileDirectory))
-        {
-            Directory.CreateDirectory(saveFileDirectory);
-            Debug.Log("ディレクトリを生成しました");
-        }
-        else
-        {
-            Debug.Log("ディレクトリは既に存在します");
-        }
+        DirectoryMessage(saveFileDirectory);
 
         Debug.Log(fileNames);
 
@@ -264,7 +219,7 @@ public class GenerateCharactorProcess
         var savePathFolder = Path.Combine(saveFileDirectory, $"{charactorName}StateDie.cs");
 
         //テンプレートファイルの読み込み
-        var stateActionIdleClassTextContent = stateActionTemplateContent.ClassFileGenerate($"{fileNames[0]}Die", fileNames[1], fileNames[2], fileNames[3]);
+        var stateActionIdleClassTextContent = charactorClassFileTemplateContent.StateActionClassFileGenerate($"{fileNames[0]}Die", fileNames[1], fileNames[2], fileNames[3]);
 
         //C#クラスの生成
         File.WriteAllText(savePathFolder, stateActionIdleClassTextContent);
@@ -273,6 +228,23 @@ public class GenerateCharactorProcess
     public void StateActionAttackClassGenerate(string saveFileDirectory, string[] fileNames)
     {
         //指定した先にフォルダが存在しなければ作成する
+        DirectoryMessage(saveFileDirectory);
+
+        Debug.Log(fileNames);
+
+        //新規作成するファイルのフルパスを指定
+        var savePathFolder = Path.Combine(saveFileDirectory, $"{charactorName}StateAttack.cs");
+
+        //テンプレートファイルの読み込み
+        var stateActionIdleClassTextContent = charactorClassFileTemplateContent.StateActionClassFileGenerate($"{fileNames[0]}Attack", fileNames[1], fileNames[2], fileNames[3]);
+
+        //C#クラスの生成
+        File.WriteAllText(savePathFolder, stateActionIdleClassTextContent);
+    }
+
+    private void DirectoryMessage(string saveFileDirectory)
+    {
+        //指定した先にフォルダが存在しなければ作成する
         if (!Directory.Exists(saveFileDirectory))
         {
             Directory.CreateDirectory(saveFileDirectory);
@@ -282,16 +254,5 @@ public class GenerateCharactorProcess
         {
             Debug.Log("ディレクトリは既に存在します");
         }
-
-        Debug.Log(fileNames);
-
-        //新規作成するファイルのフルパスを指定
-        var savePathFolder = Path.Combine(saveFileDirectory, $"{charactorName}StateAttack.cs");
-
-        //テンプレートファイルの読み込み
-        var stateActionIdleClassTextContent = stateActionTemplateContent.ClassFileGenerate($"{fileNames[0]}Attack", fileNames[1], fileNames[2], fileNames[3]);
-
-        //C#クラスの生成
-        File.WriteAllText(savePathFolder, stateActionIdleClassTextContent);
     }
 }

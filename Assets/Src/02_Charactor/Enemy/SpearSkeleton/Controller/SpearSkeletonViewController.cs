@@ -13,7 +13,7 @@ public class SpearSkeletonViewController : MonoBehaviour
     // Update is called once per frame
     public void SpearSkeletonAnimationIdle()
     {
-        animator.SetBool(SlimeAnimationTriggerName.MoveBool.ToString(), false);
+        animator.SetBool(EnemyAnimationTriggerName.MoveBool.ToString(), false);
     }
 
     public void SpearSkeletonAnimationMove(float directionFacing)
@@ -38,6 +38,6 @@ public class SpearSkeletonViewController : MonoBehaviour
 
     public void SpearSkeletonAnimationDie()
     {
-        animator.SetBool(SlimeAnimationTriggerName.MoveBool.ToString(), true);
+        animator.SetBool(EnemyAnimationTriggerName.MoveBool.ToString(), true);
     }
 }

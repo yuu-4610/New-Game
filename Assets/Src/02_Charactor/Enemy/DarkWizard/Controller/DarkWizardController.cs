@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class DarkWizardController : StateMachine<DarkWizardController, DarkWizardState>
+public class DarkWizardController : StateMachine<DarkWizardController, DarkWizardState>, IEnemy
 {
+    private GameObject targetObject;
     private DarkWizardViewController darkWizardViewController;
 
 
@@ -27,5 +28,13 @@ public class DarkWizardController : StateMachine<DarkWizardController, DarkWizar
     public void ChangeStateCall(DarkWizardState darkWizardState)
     {
         base.ChangeState(stateList[(int)darkWizardState]);
+    }
+    public void TakeDamage(float damage)
+    {
+
+    }
+    public void SetTargetObject(GameObject targetObject)
+    {
+        this.targetObject = targetObject;
     }
 }

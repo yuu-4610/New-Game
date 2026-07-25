@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class SpearSkeletonController : StateMachine<SpearSkeletonController, SpearSkeletonState>
+public class SpearSkeletonController : StateMachine<SpearSkeletonController, SpearSkeletonState>, IEnemy
 {
-    public GameObject targetObject;
+    private GameObject targetObject;
     private SpearSkeletonViewController spearSkeletonViewController;
 
     public Rigidbody2D rigidbody2D { get; private set; }
@@ -45,5 +45,13 @@ public class SpearSkeletonController : StateMachine<SpearSkeletonController, Spe
     public void ChangeStateCall(SlimeState slimeState)
     {
         base.ChangeState(stateList[(int)slimeState]);
+    }
+    public void TakeDamage(float damage)
+    {
+
+    }
+    public void SetTargetObject(GameObject targetObject)
+    {
+        this.targetObject = targetObject;
     }
 }

@@ -46,12 +46,10 @@ public class PlayerViewController : MonoBehaviour
 
 
         animator.SetBool(PlayerAnimationTriggerName.MoveBool.ToString(), true);
-
-        Debug.Log("Moveアニメーション");
     }
 
     public void PlayerDieAnimation()
     {
-        animator.SetTrigger(PlayerAnimationTriggerName.DieTrigger.ToString());
+        
     }
 }

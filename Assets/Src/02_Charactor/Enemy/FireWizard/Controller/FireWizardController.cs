@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class FireWizardController : StateMachine<FireWizardController, FireWizardState>
+public class FireWizardController : StateMachine<FireWizardController, FireWizardState>, IEnemy
 {
+    private GameObject targetObject;
     private FireWizardViewController fireWizardViewController;
 
 
@@ -27,5 +28,13 @@ public class FireWizardController : StateMachine<FireWizardController, FireWizar
     public void ChangeStateCall(FireWizardState fireWizardState)
     {
         base.ChangeState(stateList[(int)fireWizardState]);
+    }
+    public void TakeDamage(float damage)
+    {
+
+    }
+    public void SetTargetObject(GameObject targetObject)
+    {
+        this.targetObject = targetObject;
     }
 }

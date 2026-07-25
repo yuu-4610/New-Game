@@ -40,17 +40,14 @@ public class SceneProcessController : MonoBehaviour
         switch (sceneType)
         {
             case (int)SceneName.TitleScene: //０：タイトルシーン
-                //マイスコアランキングの読み取り
-                EventManager.Instance.ScoreLoadEvent();
-
+                
                 //BGMの再生
                 //StartCoroutine(WaitPlayBGM(AudioFileName.kaityusekai));
                 //WaitPlay(AudioFileName.kaityusekai);
 
                 break;
             case (int)SceneName.GameScene: //１：ゲームシーン
-                EventManager.Instance.ScoreLoadEvent(); //マイスコアランキングの読み取り
-
+                
                 //指定のBGMでなければ変更 -> リトライしたときにBGMが途切れないよう
                 //Debug.Log(AudioHelper.ToName(AudioFileName.tokonatunoumi));
                 //if (AudioManager.Instance.bgmSource.clip.name != AudioHelper.ToName(AudioFileName.tokonatunoumi))

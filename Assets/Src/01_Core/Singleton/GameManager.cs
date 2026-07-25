@@ -87,8 +87,7 @@ public class GameManager : MonoBehaviour
     //GameScene 終了時の処理
     private void GameFinish()
     {
-        //マイスコアを更新
-        EventManager.Instance.ScoreSaveEvent();
+        
     }
 
     //EventManagerが生成されるまで待つ

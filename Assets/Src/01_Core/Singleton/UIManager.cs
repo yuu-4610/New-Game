@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
      */
     public static UIManager Instance;
 
-    private int totalPoint = 0; //総合得点
     // Start is called before the first frame update
 
     private void Awake()
@@ -39,18 +38,7 @@ public class UIManager : MonoBehaviour
     {
 
     }
-    //得点を加算
-    public void SetPoint(int point)
-    {
-        totalPoint += point;
-        //ポイント加算イベント
-        EventManager.Instance.AddPointEvent();
-    }
-    //得点を取得
-    public int GetPoint()
-    {
-        return totalPoint;
-    }
+    
 
     //設定項目やスコア表示に使用
     public void UIActivityAndHidden(GameObject canvasGroup, bool judge)

@@ -6,8 +6,8 @@ public class ScriptGeneratorWindow : EditorWindow
 {
     private string enemyName;
     private string savePathFolder;
-    private bool showCreateScript = true;
-
+    private bool showStateActionCreateScript = true;
+    private bool showControllerCreateScript = true;
 
     [MenuItem("Tools/Script Generator")]
     public static void Open()
@@ -32,9 +32,17 @@ public class ScriptGeneratorWindow : EditorWindow
             Debug.Log($"生成しました：{enemyName}");
         }
 
-        showCreateScript = EditorGUILayout.Foldout(showCreateScript, "StateActionClassの生成");
+        showControllerCreateScript = EditorGUILayout.Foldout(showControllerCreateScript, "ControllerClassの生成");
+        showStateActionCreateScript = EditorGUILayout.Foldout(showStateActionCreateScript, "StateActionClassの生成");
 
-        if (showCreateScript)
+        if (showControllerCreateScript)
+        {
+            ControllerClassGenerate();
+
+            ViewControllerClassGenerate();
+        }
+
+        if (showStateActionCreateScript)
         {
             //StateIdleクラスの生成
             StateIdleClassGenerate();
@@ -47,6 +55,44 @@ public class ScriptGeneratorWindow : EditorWindow
 
             //StateAttackクラスの生成
             StateAttackClassGenerate();
+        }
+    }
+
+    private void ControllerClassGenerate()
+    {
+        GUILayout.Label("Controllerクラスの作成");
+        if (GUILayout.Button("生成", GUILayout.Width(100)))
+        {
+            if (enemyName == null || enemyName == "")
+            {
+                Debug.Log("キャラクター名の指定がありません\n処理を終了します：指定値の不備");
+                return;
+            }
+            savePathFolder = Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.enemyClassStorageLocation), enemyName, "Controller");
+            var generateCharactorProcess = new GenerateCharactorProcess(enemyName);
+            generateCharactorProcess.ControllerClassGenerate(savePathFolder, generateCharactorProcess.controllerFileContentFileNames);
+
+            enemyName = "";
+            Debug.Log($"生成しました：{enemyName}Controller");
+        }
+    }
+
+    private void ViewControllerClassGenerate()
+    {
+        GUILayout.Label("ViewControllerクラスの作成");
+        if (GUILayout.Button("生成", GUILayout.Width(100)))
+        {
+            if (enemyName == null || enemyName == "")
+            {
+                Debug.Log("キャラクター名の指定がありません\n処理を終了します：指定値の不備");
+                return;
+            }
+            savePathFolder = Path.Combine(Application.dataPath, PathHelper.ToName(ResourcePath.enemyClassStorageLocation), enemyName, "Controller");
+            var generateCharactorProcess = new GenerateCharactorProcess(enemyName);
+            generateCharactorProcess.ViewControllerClassGenerate(savePathFolder, generateCharactorProcess.viewControllerFileContentFileNames);
+
+            enemyName = "";
+            Debug.Log($"生成しました：{enemyName}ViewController");
         }
     }
 
@@ -64,12 +110,13 @@ public class ScriptGeneratorWindow : EditorWindow
 
             //生成命令クラス
             var generateCharactorProcess = new GenerateCharactorProcess(enemyName);
-            generateCharactorProcess.StateActionIdleClassGenerate(savePathFolder, generateCharactorProcess.fileNames);
+            generateCharactorProcess.StateActionIdleClassGenerate(savePathFolder, generateCharactorProcess.stateActionFileContentFileNames);
 
             enemyName = "";
             Debug.Log($"生成しました：{enemyName}StateIdle");
         }
     }
+    
 
     private void StateMoveClassGenerate()
     {
@@ -85,7 +132,7 @@ public class ScriptGeneratorWindow : EditorWindow
 
             //生成命令クラス
             var generateCharactorProcess = new GenerateCharactorProcess(enemyName);
-            generateCharactorProcess.StateActionMoveClassGenerate(savePathFolder, generateCharactorProcess.fileNames);
+            generateCharactorProcess.StateActionMoveClassGenerate(savePathFolder, generateCharactorProcess.stateActionFileContentFileNames);
 
             enemyName = "";
             Debug.Log($"生成しました：{enemyName}StateMove");
@@ -106,7 +153,7 @@ public class ScriptGeneratorWindow : EditorWindow
 
             //生成命令クラス
             var generateCharactorProcess = new GenerateCharactorProcess(enemyName);
-            generateCharactorProcess.StateActionDieClassGenerate(savePathFolder, generateCharactorProcess.fileNames);
+            generateCharactorProcess.StateActionDieClassGenerate(savePathFolder, generateCharactorProcess.stateActionFileContentFileNames);
 
             enemyName = "";
             Debug.Log($"生成しました：{enemyName}StateDie");
@@ -127,7 +174,7 @@ public class ScriptGeneratorWindow : EditorWindow
 
             //生成命令クラス
             var generateCharactorProcess = new GenerateCharactorProcess(enemyName);
-            generateCharactorProcess.StateActionAttackClassGenerate(savePathFolder, generateCharactorProcess.fileNames);
+            generateCharactorProcess.StateActionAttackClassGenerate(savePathFolder, generateCharactorProcess.stateActionFileContentFileNames);
 
             enemyName = "";
             Debug.Log($"生成しました：{enemyName}StateAttack");

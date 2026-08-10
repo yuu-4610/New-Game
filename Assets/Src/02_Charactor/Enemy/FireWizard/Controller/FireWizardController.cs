@@ -4,7 +4,7 @@ public class FireWizardController : StateMachine<FireWizardController, FireWizar
 {
     private GameObject targetObject;
     private FireWizardViewController fireWizardViewController;
-
+    public Vector2Int currentCell { get; private set; }
 
     private void Awake()
     {
@@ -36,5 +36,14 @@ public class FireWizardController : StateMachine<FireWizardController, FireWizar
     public void SetTargetObject(GameObject targetObject)
     {
         this.targetObject = targetObject;
+    }
+
+    public void SetCurrentCell(Vector2Int currentCell)
+    {
+        this.currentCell = currentCell;
+    }
+    public Vector2Int GetCurrentCell()
+    {
+        return this.currentCell;
     }
 }

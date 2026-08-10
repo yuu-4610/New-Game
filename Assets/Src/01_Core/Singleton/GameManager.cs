@@ -108,6 +108,5 @@ public class GameManager : MonoBehaviour
         }
         //ƒV[ƒ“‘JˆÚ‚Éˆ—
         EventManager.Instance.SceneTransitionEvent(sceneType);
-        Debug.Log("ŒÄ‚ñ‚¾");
     }
 }

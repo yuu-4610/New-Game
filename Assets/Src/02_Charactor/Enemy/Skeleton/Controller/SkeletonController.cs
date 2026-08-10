@@ -4,13 +4,14 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
 {
     private GameObject targetObject;
     private SkeletonViewController SkeletonViewController;
-    public Rigidbody2D rigidbody2D { get; private set; }
+    public Rigidbody2D rigidbody2D { get; private set; } //各ステートクラスで使用
 
     public Vector2 moveVectol { get; private set; }
     public float distanceDifference { get; private set; }
     public float distanceDifferenceLimit { get; private set; } = 0.1f;
 
     private float hp;
+    public Vector2Int currentCell { get; private set; }
 
     private Vector2 toTargetDistance;
 
@@ -26,14 +27,13 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
     }
     void Start()
     {
-
+        //最初のステートを指定
         ChangeStateCall(SkeletonState.Idle);
     }
 
     // Update is called once per frame
     public override void Update()
     {
-        Debug.Log(targetObject.name);
         //ターゲットとの距離を計算
         toTargetDistance = targetObject.transform.position - gameObject.transform.position;
         moveVectol = toTargetDistance.normalized;
@@ -58,7 +58,15 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
     }
     public void SetTargetObject(GameObject targetObject)
     {
-        Debug.Log(targetObject.name);
         this.targetObject = targetObject;
+    }
+
+    public void SetCurrentCell(Vector2Int currentCell)
+    {
+        this.currentCell = currentCell;
+    }
+    public Vector2Int GetCurrentCell()
+    {
+        return this.currentCell;
     }
 }

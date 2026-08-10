@@ -14,6 +14,12 @@ public enum SceneName
     GameScene, //ゲームシーン
 }
 
+public enum TestSceneName
+{
+    TestTitleScene, //タイトルシーン
+    TestGameScene, //ゲームシーン
+}
+
 //生成する親オブジェクト名
 public enum GenerateParentObjectName
 {
@@ -61,6 +67,13 @@ public enum AttackEffectObjectPoolName
 {
     slashEffect,
 }
+
+public enum ExperiencePointsObjectPoolName
+{
+    LowGradePoints,
+    MiddleGradePoints,
+}
+
 public enum EnemyObjectPoolName
 {
     Skeleton,
@@ -104,6 +117,7 @@ public enum ImporTextFileName
 public enum ImportCSVFileName
 {
     PopPattern,
+    PopTime,
 }
 
 public enum RewiteValueName

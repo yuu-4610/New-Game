@@ -32,11 +32,11 @@ public class ObjectManager : MonoBehaviour
     }
     // Start is called before the first frame update
     //オブジェクトのコンポーネント参照をする
-    public T GetOtherComponent<T>(string key, GameObject prefab) where T : Component
-    {
-        var objct = GetOrCreate(key, prefab);
-        return objct.GetComponent<T>();
-    }
+    //public T GetOtherComponent<T>(string key, GameObject prefab) where T : Component
+    //{
+    //    var objct = GetOrCreate(key, prefab);
+    //    return objct.GetComponent<T>();
+    //}
     public GameObject GetObject(string key)
     {
         if (!objects.ContainsKey(key))

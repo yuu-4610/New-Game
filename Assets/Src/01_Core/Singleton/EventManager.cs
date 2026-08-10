@@ -19,6 +19,14 @@ public class EventManager : MonoBehaviour
 
     public event Action transitionTitleToGameEvent;
 
+    public event Action playerGenerate;
+
+    public event Action enemyGenerate;
+
+    public event Action<string, GameObject> pushExperiencePoint;
+
+    public event Action popExperiencePoint;
+
 
     // Use this for initialization
     private void Awake()
@@ -43,6 +51,27 @@ public class EventManager : MonoBehaviour
     {
         enemyObjectPush?.Invoke(poolObjectName, pushObject);
     }
+
+    public void PlayerGenerateEvent()
+    {
+        playerGenerate?.Invoke();
+    }
+
+    public void EnemyGenerateEvent()
+    {
+        enemyGenerate?.Invoke();
+    }
+
+    public void PopExperiencePointEvent()
+    {
+        popExperiencePoint?.Invoke();
+    }
+
+    public void PushExperiencePointEvent(string experiencePointName, GameObject pushExperiencePointObject)
+    {
+        pushExperiencePoint?.Invoke(experiencePointName, pushExperiencePointObject);
+    }
+
     //ƒQ[ƒ€ƒV[ƒ“‘JˆÚ‚Éˆ—
     public void TransitionTitleToGameEvent()
     {

@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackAttackEffectObject:
-    attackPrefabObject: []
+    attackPrefabObject:
+    - {fileID: 4000761755342837432, guid: 991d21e1278db474a804586c1784f1b4, type: 3}

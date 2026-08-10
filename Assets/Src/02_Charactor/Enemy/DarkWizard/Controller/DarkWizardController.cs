@@ -4,7 +4,7 @@ public class DarkWizardController : StateMachine<DarkWizardController, DarkWizar
 {
     private GameObject targetObject;
     private DarkWizardViewController darkWizardViewController;
-
+    public Vector2Int currentCell { get; private set; }
 
     private void Awake()
     {
@@ -36,5 +36,19 @@ public class DarkWizardController : StateMachine<DarkWizardController, DarkWizar
     public void SetTargetObject(GameObject targetObject)
     {
         this.targetObject = targetObject;
+    }
+
+    public GameObject GetGameObject()
+    {
+        return this.targetObject;
+    }
+
+    public void SetCurrentCell(Vector2Int currentCell)
+    {
+        this.currentCell = currentCell;
+    }
+    public Vector2Int GetCurrentCell()
+    {
+        return this.currentCell;
     }
 }

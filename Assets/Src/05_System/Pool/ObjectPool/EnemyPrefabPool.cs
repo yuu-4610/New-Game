@@ -14,7 +14,7 @@ public class EnemyPrefabPool : ObjectPoolBase
     private Dictionary<string, Stack<GameObject>> poolObjectDictionary = new Dictionary<string, Stack<GameObject>>();
     Dictionary<string, GameObject> parentObjects = new Dictionary<string, GameObject>();
     private Stack<GameObject> skeletontPool = new();
-    public bool isInitialize = default;
+    //public bool isInitialize = default;
     private int initializeSize = 30;
 
     private void Awake()
@@ -29,7 +29,6 @@ public class EnemyPrefabPool : ObjectPoolBase
         //Titleシーン（一番最初のシーン）で配置したオブジェクトを残す
         DontDestroyOnLoad(this.gameObject);
 
-        isInitialize = false;
     }
     private void Initialize()
     {
@@ -58,17 +57,16 @@ public class EnemyPrefabPool : ObjectPoolBase
             }
         }
 
-        isInitialize = true;
+        //isInitialize = true;
     }
 
     private void OnEnable()
     {
-        EventRegister();
+        StartCoroutine(EventRegister());
     }
     private void Start()
     {
-        //テスト用
-        Initialize();
+        
     }
 
     public override GameObject Pop(string objectName)
@@ -114,10 +112,17 @@ public class EnemyPrefabPool : ObjectPoolBase
             yield return null;
         }
 
-        if (isInitialize)
+        EventManager.Instance.enemyGenerate += Initialize;
+        EventManager.Instance.enemyObjectPush += Push;
+    }
+
+    private IEnumerator EventRegist()
+    {
+        while(EventManager.Instance == null)
         {
-            EventManager.Instance.enemyObjectPush += Push;
-            EventManager.Instance.transitionTitleToGameEvent += Initialize;
+            yield return null;
         }
+
+        
     }
 }

@@ -4,12 +4,11 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : StateMachine<PlayerController, PlayerState>
+public class PlayerController : StateMachine<PlayerController, PlayerState>, IPlayer
 {
     [Header("移動スピード値")]
     [SerializeField] float moveSpeed = 0f;
 
-    private Animator animator;
     private CharacterController characterController;
     private PlayerInputController playerInputController;
     private PlayerInputActions playerInputActions;
@@ -21,7 +20,6 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>
     {
         characterController = GetComponent<CharacterController>();
         playerViewController = GetComponent<PlayerViewController>();
-        animator = GetComponent<Animator>();
         playerInputActions = new PlayerInputActions();
         playerInputController = new PlayerInputController(playerInputActions);
 
@@ -29,7 +27,8 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>
         stateList.Add(new PlayerStateIdle(this, playerInputActions, playerViewController));
         stateList.Add(new PlayerStateMove(this, characterController, playerInputActions, playerViewController));
 
-        ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), this.gameObject);
+        //このオブジェクトの参照を登録
+        //ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), this.gameObject);
     }
     private void OnEnable()
     {
@@ -60,6 +59,16 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>
     public void ChangeStateCall(PlayerState playerState)
     {
         base.ChangeState(stateList[(int)playerState]);
+    }
+
+    public void Dmageable(float damage)
+    {
+        
+    }
+
+    public void SetExperiencePoint(int point)
+    {
+
     }
 
     public void OnTriggerEnter(Collider other)

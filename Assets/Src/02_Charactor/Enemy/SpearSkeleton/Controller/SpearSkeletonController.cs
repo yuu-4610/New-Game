@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SpearSkeletonController : StateMachine<SpearSkeletonController, SpearSkeletonState>, IEnemy
 {
@@ -9,6 +10,7 @@ public class SpearSkeletonController : StateMachine<SpearSkeletonController, Spe
     public Vector2 moveVectol { get; private set; }
     public float distanceDifference { get; private set; }
     public float distanceDifferenceLimit { get; private set; } = 0.1f;
+    public Vector2Int currentCell { get; private set; }
 
     private Vector2 toTargetDistance;
 
@@ -53,5 +55,15 @@ public class SpearSkeletonController : StateMachine<SpearSkeletonController, Spe
     public void SetTargetObject(GameObject targetObject)
     {
         this.targetObject = targetObject;
+    }
+    
+    public void SetCurrentCell(Vector2Int currentCell)
+    {
+        this.currentCell = currentCell;
+    }
+
+    public Vector2Int GetCurrentCell()
+    {
+        return this.currentCell;
     }
 }

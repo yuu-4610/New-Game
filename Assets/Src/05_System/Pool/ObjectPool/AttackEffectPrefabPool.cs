@@ -40,7 +40,7 @@ public class AttackEffectPrefabPool : ObjectPoolBase
         for (int i = 0; i < attackEffectArray.Length; ++i)
         {
             Debug.Log($"attackEffectNamesF{attackEffectNames[i]}");
-            //Dictonary‚É’Ç‰Á
+            
             poolObjectDictionary.Add(attackEffectNames[i], new Stack<GameObject>());
 
             for (int j = 0; j < initializeSize; ++j)

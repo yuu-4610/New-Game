@@ -47,7 +47,7 @@ public class SceneProcessController : MonoBehaviour
 
                 break;
             case (int)SceneName.GameScene: //１：ゲームシーン
-                
+
                 //指定のBGMでなければ変更 -> リトライしたときにBGMが途切れないよう
                 //Debug.Log(AudioHelper.ToName(AudioFileName.tokonatunoumi));
                 //if (AudioManager.Instance.bgmSource.clip.name != AudioHelper.ToName(AudioFileName.tokonatunoumi))
@@ -55,6 +55,7 @@ public class SceneProcessController : MonoBehaviour
                 //    //StartCoroutine(WaitPlayBGM(AudioFileName.tokonatunoumi));
                 //    WaitPlay(AudioFileName.tokonatunoumi);
                 //}
+                EventManager.Instance.PlayerGenerateEvent();
 
                 break;
 
@@ -80,7 +81,6 @@ public class SceneProcessController : MonoBehaviour
             yield return null;
         }
         EventManager.Instance.sceneTransition += SceneProcess;
-        Debug.Log("準備できた");
         hasEvent = true;
     }
 }

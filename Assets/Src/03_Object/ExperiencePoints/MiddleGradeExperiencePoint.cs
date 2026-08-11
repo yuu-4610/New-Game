@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MiddleGradeExperiencePoint : ExperiencePointBase
+public class MiddleGradeExperiencePoint : ExperiencePointBase, IExperiencePoint
 {
     public override int experiencePoints => 5;
 

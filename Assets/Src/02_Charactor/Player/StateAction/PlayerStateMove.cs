@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class PlayerStateMove : State<PlayerController>
 {
-    private CharacterController characterController;
     private PlayerInputActions playerInputActions;
     private PlayerViewController playerViewController;
     private float moveSpeed = 2;
     private bool isMove = default;
 
-    public PlayerStateMove(PlayerController owner, CharacterController characterController, PlayerInputActions playerInputActions, PlayerViewController playerViewController) : base(owner)
+    public PlayerStateMove(PlayerController owner, PlayerInputActions playerInputActions, PlayerViewController playerViewController) : base(owner)
     {
-        this.characterController = characterController;
         this.playerInputActions = playerInputActions;
         this.playerViewController = playerViewController;
     }
@@ -25,7 +23,13 @@ public class PlayerStateMove : State<PlayerController>
     public override void Execute()
     {
         //à⁄ìÆèàóù
-        characterController.Move(owner.moveValues * moveSpeed * Time.deltaTime);
+        owner.gameObject.transform.position += new Vector3(
+            owner.moveValues.x * moveSpeed,
+            owner.moveValues.y * moveSpeed,
+            0
+            ) * Time.deltaTime;
+
+        //characterController.Move(owner.moveValues * moveSpeed * Time.deltaTime);
         //Debug.Log($"owner.moveValuesÅF{owner.moveValues}");
         //Debug.Log($"moveSpeedÅF{moveSpeed}");
 

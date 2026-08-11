@@ -9,7 +9,6 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
     [Header("移動スピード値")]
     [SerializeField] float moveSpeed = 0f;
 
-    private CharacterController characterController;
     private PlayerInputController playerInputController;
     private PlayerInputActions playerInputActions;
     private PlayerViewController playerViewController;
@@ -18,17 +17,15 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
 
     private void Awake()
     {
-        characterController = GetComponent<CharacterController>();
         playerViewController = GetComponent<PlayerViewController>();
         playerInputActions = new PlayerInputActions();
         playerInputController = new PlayerInputController(playerInputActions);
 
         //Stateクラスの追加
         stateList.Add(new PlayerStateIdle(this, playerInputActions, playerViewController));
-        stateList.Add(new PlayerStateMove(this, characterController, playerInputActions, playerViewController));
+        stateList.Add(new PlayerStateMove(this, playerInputActions, playerViewController));
 
-        //このオブジェクトの参照を登録
-        //ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), this.gameObject);
+        if (gameObject.tag != AcquisitionObjectName.Player.ToString()) gameObject.tag = AcquisitionObjectName.Player.ToString();
     }
     private void OnEnable()
     {
@@ -48,11 +45,8 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
     {
         //入力値の検知
         moveValues = playerInputController.MoveValue().normalized;
-        //Move();
         //継承元クラスのUpdate()を実行
         base.Update();
-
-        //Debug.Log($"base.currentState{base.currentState}");
     }
 
     //
@@ -68,7 +62,7 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
 
     public void SetExperiencePoint(int point)
     {
-
+        //Debug.Log($"{point}ポイント取得");
     }
 
     public void OnTriggerEnter(Collider other)

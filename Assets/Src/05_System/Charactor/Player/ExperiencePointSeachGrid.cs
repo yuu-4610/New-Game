@@ -5,9 +5,16 @@ using UnityEngine;
 public class ExperiencePointSeachGrid : MonoBehaviour
 {
     public Dictionary<Vector2Int, List<GameObject>> grid { get; private set; } = new();
+    public bool isInitialize { get; private set; } = false;
 
-    private float cellSize = 5f;
+    private float cellSize = 2f;
     private Vector2Int playerCell;
+    public int cellRenge { get; private set; }
+
+    private void Start()
+    {
+        isInitialize = true;
+    }
 
     //指定値を基準とし、座標の計算をする
     private Vector2Int GetCell(Vector3 position)
@@ -32,6 +39,8 @@ public class ExperiencePointSeachGrid : MonoBehaviour
 
         experiencePointObject.GetComponent<IExperiencePoint>().SetCell(cell);
         pointObject.Add(experiencePointObject);
+
+        Debug.Log("追加できた");
     }
 
     public void RemoveExperiencePointObject(GameObject experiencePointObject)
@@ -51,10 +60,18 @@ public class ExperiencePointSeachGrid : MonoBehaviour
     {
         //セル座標を取得
         var playerCell = GetCell(playerPosition);
-        if (this.playerCell == playerCell) return;
-        else this.playerCell = playerCell;
+        Debug.Log($"現在のセル：{playerCell}");
+        if (this.playerCell == playerCell)
+        {
+            return;
+        }
+        else
+        {
+            this.playerCell = playerCell;
+        }
 
         var cellRange = Mathf.CeilToInt(radius / cellSize);
+        this.cellRenge = cellRange;
 
         var radiusSqr = radius * radius;
 

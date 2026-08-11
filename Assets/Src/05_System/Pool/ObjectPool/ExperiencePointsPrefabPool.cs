@@ -60,6 +60,12 @@ public class ExperiencePointsPrefabPool : ObjectPoolBase
 
             return null;
         }
+        if(poolObjectDictionary.Count == 0)
+        {
+            Debug.Log($"スタックがありません");
+
+            return null;
+        }
 
         var prefab = poolObjectDictionary[objectName].Pop();
         prefab.SetActive(true);

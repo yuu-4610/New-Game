@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ExperiencePointManager : MonoBehaviour
@@ -12,16 +14,20 @@ public class ExperiencePointManager : MonoBehaviour
     private int middleGradePointRate = 90;
     private int rateValue;
 
+    private float time;
+    private bool isPop;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        time = 0;
+        isPop = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        TestPop();
     }
 
     private void OnEnable()
@@ -35,15 +41,21 @@ public class ExperiencePointManager : MonoBehaviour
         EventManager.Instance.popExperiencePoint -= PopExperiencePoint;
     }
 
-    private void PopExperiencePoint()
+    private void PopExperiencePoint(Vector3 position)
     {
-        rateValue = Random.Range(0, 100);
+        rateValue = UnityEngine.Random.Range(0, 100);
 
-        if(rateValue <= lowGradePointRate) experiencePointObject = experiencePointsPrefabPool.Pop(ExperiencePointsObjectPoolName.LowGradePoints.ToString());
+        //rateValueの値によってポップするオブジェクトを選択し、プールから取り出す
+        if (rateValue <= lowGradePointRate) experiencePointObject = experiencePointsPrefabPool.Pop(ExperiencePointsObjectPoolName.LowGradePoints.ToString());
         else if (rateValue <= middleGradePointRate) experiencePointObject = experiencePointsPrefabPool.Pop(ExperiencePointsObjectPoolName.MiddleGradePoints.ToString());
 
-        //Gridに登録
-        experiencePointSeachGrid.AddExperiencePointObject(experiencePointObject);
+        //何も返って来なかったら
+        if (experiencePointObject != null)
+        {
+            experiencePointObject.transform.position = position;
+            //Gridに登録
+            experiencePointSeachGrid.AddExperiencePointObject(experiencePointObject);
+        }
     }
 
     private void PushExperiencePoint(string pushName, GameObject experiencePointObject)
@@ -65,5 +77,19 @@ public class ExperiencePointManager : MonoBehaviour
 
         EventManager.Instance.popExperiencePoint += PopExperiencePoint;
         EventManager.Instance.pushExperiencePoint += PushExperiencePoint;
+    }
+
+    private void TestPop()
+    {
+        time += Time.deltaTime;
+        if (time > 3 && isPop)
+        {
+            isPop = false;
+            PopExperiencePoint(new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), 0));
+
+            time = 0;
+
+            isPop = true;
+        }
     }
 }

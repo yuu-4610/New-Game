@@ -25,7 +25,7 @@ public class EventManager : MonoBehaviour
 
     public event Action<string, GameObject> pushExperiencePoint;
 
-    public event Action popExperiencePoint;
+    public event Action<Vector3> popExperiencePoint;
 
 
     // Use this for initialization
@@ -62,9 +62,9 @@ public class EventManager : MonoBehaviour
         enemyGenerate?.Invoke();
     }
 
-    public void PopExperiencePointEvent()
+    public void PopExperiencePointEvent(Vector3 position)
     {
-        popExperiencePoint?.Invoke();
+        popExperiencePoint?.Invoke(position);
     }
 
     public void PushExperiencePointEvent(string experiencePointName, GameObject pushExperiencePointObject)

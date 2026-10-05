@@ -9,27 +9,14 @@ public class EnemyPrefabPool : ObjectPoolBase
     [Header("対象Enumクラスに記載されている順番でアタッチ")]
     [SerializeField] StackEnemyObject stackEnemyObject;
 
-    public static EnemyPrefabPool Instance;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private Dictionary<string, Stack<GameObject>> poolObjectDictionary = new Dictionary<string, Stack<GameObject>>();
     Dictionary<string, GameObject> parentObjects = new Dictionary<string, GameObject>();
     private Stack<GameObject> skeletontPool = new();
+    private GameObject playerObject;
     //public bool isInitialize = default;
     private int initializeSize = 30;
 
-    private void Awake()
-    {
-        //シングルトン
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
-        //Titleシーン（一番最初のシーン）で配置したオブジェクトを残す
-        DontDestroyOnLoad(this.gameObject);
-
-    }
     private void Initialize()
     {
         //-----------------プール用オブジェクトの追加、Dictionaryで管理-----------------//
@@ -37,6 +24,8 @@ public class EnemyPrefabPool : ObjectPoolBase
         EnemyObjectPoolName[] enemyArray = (EnemyObjectPoolName[])System.Enum.GetValues(typeof(EnemyObjectPoolName));
         //enemyArrayの値をstring配列で管理
         string[] enemyNames = Array.ConvertAll(enemyArray, enemy => enemy.ToString());
+        //プレイヤーオブジェクトを取得
+        playerObject = ObjectManager.Instance.GetObject(AcquisitionObjectName.Player.ToString());
 
         //取得したEnumの値の数だけ繰り返し処理
         for (int i = 0; i < enemyArray.Length; ++i)
@@ -51,7 +40,7 @@ public class EnemyPrefabPool : ObjectPoolBase
                 enmeyObjectPrefab.SetActive(false);
                 if (enmeyObjectPrefab.TryGetComponent<IEnemy>(out var enemyPrefab))
                 {
-                    enemyPrefab.SetTargetObject(ObjectManager.Instance.GetObject(AcquisitionObjectName.Player.ToString()));
+                    enemyPrefab.SetTargetObject(playerObject);
                 }
                 poolObjectDictionary[enemyNames[i]].Push(enmeyObjectPrefab);
             }
@@ -112,7 +101,7 @@ public class EnemyPrefabPool : ObjectPoolBase
             yield return null;
         }
 
-        EventManager.Instance.enemyGenerate += Initialize;
+        EventManager.Instance.finishedGeneratePlayer += Initialize;
         EventManager.Instance.enemyObjectPush += Push;
     }
 

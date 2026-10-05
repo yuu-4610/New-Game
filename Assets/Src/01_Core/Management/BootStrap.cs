@@ -9,6 +9,8 @@ public class BootStrap : MonoBehaviour
     [SerializeField] GameObject SceneProcessControllere;
     [SerializeField] GameObject UIManager;
 
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

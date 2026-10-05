@@ -8,10 +8,20 @@ public class MiddleGradeExperiencePoint : ExperiencePointBase, IExperiencePoint
 
     private Vector2Int cell;
 
+    private GameObject targetObject;
+    private bool haspermission = default;
+    private float moveSpeed = 7f;
+
     void Start()
     {
 
     }
+
+    void Update()
+    {
+        MoveToPlayer();
+    }
+
     public void SetCell(Vector2Int cell)
     {
         this.cell = cell;
@@ -21,6 +31,24 @@ public class MiddleGradeExperiencePoint : ExperiencePointBase, IExperiencePoint
     {
         return cell;
     }
+    public void PushProcessCheck()
+    {
+        haspermission = true;
+    }
+
+    public void SetTargetObject(GameObject targetPObject)
+    {
+        this.targetObject = targetPObject;
+    }
+    private void MoveToPlayer()
+    {
+        if (haspermission)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetObject.transform.position, moveSpeed * Time.deltaTime);
+            //transform.position += targetObject.transform.position - this.transform.position;
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,6 +57,7 @@ public class MiddleGradeExperiencePoint : ExperiencePointBase, IExperiencePoint
         {
             player.SetExperiencePoint(experiencePoints);
 
+            haspermission = false;
             EventManager.Instance.PushExperiencePointEvent(objectName, this.gameObject);
         }
     }

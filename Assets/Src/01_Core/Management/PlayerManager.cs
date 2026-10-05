@@ -7,16 +7,14 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
     [SerializeField] ExperiencePointSeachGrid experiencePointSeachGrid;
-
-    [SerializeField] GameObject RengeObject;
-    private GameObject Robject;
+    //private GameObject Robject;
 
     private GameObject playerObject;
     
 
     private void Start()
     {
-        Robject = Instantiate(RengeObject);
+        
     }
 
     private void OnEnable()
@@ -33,7 +31,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerObject != null)
         {
-            experiencePointSeachGrid.FindMagnetTargets(playerObject.transform.position, 2f);
+            experiencePointSeachGrid.FindMagnetTargets(playerObject.transform.position, 1.5f);
             TestMethod();
         }
     }
@@ -46,14 +44,14 @@ public class PlayerManager : MonoBehaviour
         //生成したプレイヤーオブジェクトの参照を登録
         ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), player);
 
-        //エネミー生成処理を呼び出す
-        EventManager.Instance.EnemyGenerateEvent();
+        //プレイヤー生成後に
+        EventManager.Instance.FinishedGeneratePlayerEvent();
     }
 
     private void TestMethod()
     {
-        Robject.transform.localScale = new Vector3(experiencePointSeachGrid.cellRenge * 2, experiencePointSeachGrid.cellRenge * 2, 1);
-        Robject.transform.position = playerObject.transform.position;
+        //Robject.transform.localScale = new Vector3(experiencePointSeachGrid.cellRenge * 2, experiencePointSeachGrid.cellRenge * 2, 1);
+        //Robject.transform.position = playerObject.transform.position;
     }
 
     private IEnumerator EventRegist()

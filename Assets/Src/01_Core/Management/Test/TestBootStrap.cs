@@ -8,6 +8,7 @@ public class TestBootStrap : MonoBehaviour
     [SerializeField] GameObject ObjectManagaer;
     [SerializeField] GameObject SceneProcessControllere;
     //[SerializeField] GameObject UIManager;
+    [SerializeField] GameObject TestEventManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +24,7 @@ public class TestBootStrap : MonoBehaviour
 
     private void GeneratSingltonObject()
     {
+        Instantiate(TestEventManager);
         Instantiate(EventManager);
         Instantiate(TestGameManager);
         //Instantiate(AudioManager);

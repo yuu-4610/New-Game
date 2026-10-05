@@ -4,40 +4,41 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ExperiencePointManager : MonoBehaviour
+public class ExperiencePointObjectController : MonoBehaviour
 {
-    [SerializeField] ExperiencePointsPrefabPool experiencePointsPrefabPool;
-    [SerializeField] ExperiencePointSeachGrid experiencePointSeachGrid;
+    [SerializeField] ExperiencePointsPrefabPool experiencePointsPrefabPool; //プール管理クラス
+    [SerializeField] ExperiencePointSeachGrid experiencePointSeachGrid; //グリッドシステムクラス
 
-    private GameObject experiencePointObject;
-    private int lowGradePointRate = 70;
-    private int middleGradePointRate = 90;
-    private int rateValue;
+    private GameObject experiencePointObject; //ポップされた経験値オブジェクトの参照を一時的に保持する
+    private int lowGradePointRate = 70; //確率の上限値
+    private int middleGradePointRate = 90; //確率の上限値
+    private int rateValue; //ランダム値
 
-    private float time;
-    private bool isPop;
+    private float testPoptime;
+    private bool isTestPop;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        time = 0;
-        isPop = true;
+        testPoptime = 0;
+        isTestPop = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        TestPop();
+        //TestPop();
     }
 
     private void OnEnable()
     {
+        //イベント登録
         StartCoroutine(EventRegist());
     }
 
     private void OnDisable()
     {
-        EventManager.Instance.pushExperiencePoint -= PushExperiencePoint;
+        EventManager.Instance.returnExperiencePoint -= ReturnExperiencePoint;
         EventManager.Instance.popExperiencePoint -= PopExperiencePoint;
     }
 
@@ -49,22 +50,27 @@ public class ExperiencePointManager : MonoBehaviour
         if (rateValue <= lowGradePointRate) experiencePointObject = experiencePointsPrefabPool.Pop(ExperiencePointsObjectPoolName.LowGradePoints.ToString());
         else if (rateValue <= middleGradePointRate) experiencePointObject = experiencePointsPrefabPool.Pop(ExperiencePointsObjectPoolName.MiddleGradePoints.ToString());
 
-        //何も返って来なかったら
+        //何かしら帰ってきたら
         if (experiencePointObject != null)
         {
             experiencePointObject.transform.position = position;
             //Gridに登録
             experiencePointSeachGrid.AddExperiencePointObject(experiencePointObject);
         }
+
+        else
+        {
+            Debug.Log($"{experiencePointObject.name}のストックがありません");
+        }
+        experiencePointObject = null;
     }
 
-    private void PushExperiencePoint(string pushName, GameObject experiencePointObject)
+    private void ReturnExperiencePoint(GameObject experiencePointObject)
     {
-        //プールに戻す
-        experiencePointsPrefabPool.Push(pushName, experiencePointObject);
-
         //Gridから解除
         experiencePointSeachGrid.RemoveExperiencePointObject(experiencePointObject);
+
+        experiencePointObject.GetComponent<IExperiencePoint>().PushProcessCheck();
     }
 
     //イベント登録
@@ -76,20 +82,20 @@ public class ExperiencePointManager : MonoBehaviour
         }
 
         EventManager.Instance.popExperiencePoint += PopExperiencePoint;
-        EventManager.Instance.pushExperiencePoint += PushExperiencePoint;
+        EventManager.Instance.returnExperiencePoint += ReturnExperiencePoint;
     }
 
     private void TestPop()
     {
-        time += Time.deltaTime;
-        if (time > 3 && isPop)
+        testPoptime += Time.deltaTime;
+        if (testPoptime > 3 && isTestPop)
         {
-            isPop = false;
+            isTestPop = false;
             PopExperiencePoint(new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), 0));
 
-            time = 0;
+            testPoptime = 0;
 
-            isPop = true;
+            isTestPop = true;
         }
     }
 }

@@ -21,9 +21,10 @@ public class EventManager : MonoBehaviour
 
     public event Action playerGenerate;
 
-    public event Action enemyGenerate;
+    public event Action finishedGeneratePlayer;
 
     public event Action<string, GameObject> pushExperiencePoint;
+    public event Action<GameObject> returnExperiencePoint;
 
     public event Action<Vector3> popExperiencePoint;
 
@@ -57,9 +58,9 @@ public class EventManager : MonoBehaviour
         playerGenerate?.Invoke();
     }
 
-    public void EnemyGenerateEvent()
+    public void FinishedGeneratePlayerEvent()
     {
-        enemyGenerate?.Invoke();
+        finishedGeneratePlayer?.Invoke();
     }
 
     public void PopExperiencePointEvent(Vector3 position)
@@ -67,9 +68,14 @@ public class EventManager : MonoBehaviour
         popExperiencePoint?.Invoke(position);
     }
 
-    public void PushExperiencePointEvent(string experiencePointName, GameObject pushExperiencePointObject)
+    public void PushExperiencePointEvent(string objectName, GameObject pushExperiencePointObject)
     {
-        pushExperiencePoint?.Invoke(experiencePointName, pushExperiencePointObject);
+        pushExperiencePoint?.Invoke(objectName, pushExperiencePointObject);
+    }
+
+    public void ReturnExperiencePointEvent(GameObject pushExperiencePointObject)
+    {
+        returnExperiencePoint?.Invoke(pushExperiencePointObject);
     }
 
     //ÉQÅ[ÉÄÉVÅ[ÉìëJà⁄éûÇ…èàóù

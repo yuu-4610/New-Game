@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyPopSystem : MonoBehaviour
@@ -28,7 +29,7 @@ public class EnemyPopSystem : MonoBehaviour
     }
     private void OnDisable()
     {
-        EventManager.Instance.enemyGenerate -= Initialize;
+        EventManager.Instance.finishedGeneratePlayer -= Initialize;
     }
 
     private void Update()
@@ -72,6 +73,6 @@ public class EnemyPopSystem : MonoBehaviour
             yield return null;
         }
 
-        EventManager.Instance.enemyGenerate += Initialize;
+        EventManager.Instance.finishedGeneratePlayer += Initialize;
     }
 }

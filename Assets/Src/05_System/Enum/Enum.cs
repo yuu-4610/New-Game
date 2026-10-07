@@ -65,7 +65,7 @@ public enum AudioFileName
 
 public enum AttackEffectObjectPoolName
 {
-    slashEffect,
+    Slash,
 }
 
 public enum ExperiencePointsObjectPoolName

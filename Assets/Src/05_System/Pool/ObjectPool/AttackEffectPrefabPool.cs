@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,24 +8,15 @@ public class AttackEffectPrefabPool : ObjectPoolBase
     [Header("対象Enumクラスに記載されている順番でアタッチ")]
     [SerializeField] StackAttackEffectObject stackAttackEffectObject;
     private Dictionary<string, Stack<GameObject>> poolObjectDictionary = new Dictionary<string, Stack<GameObject>>();
+    private Dictionary<string, GameObject> parentObjects = new Dictionary<string, GameObject>();
     public static AttackEffectPrefabPool Instance;
-    public bool isInitialize { get; private set; } = default;
+    private bool isInitialize = default;
     private int initializeSize = 10;
+    private GameObject parentTopObject;
 
     private void Awake()
     {
-        //シングルトン
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
-        //Titleシーン（一番最初のシーン）で配置したオブジェクトを残す
-        DontDestroyOnLoad(this.gameObject);
-
-        isInitialize = false;
-
+        parentTopObject = new GameObject("AttackObjectParent");
         Initialize();
     }
     
@@ -39,13 +31,14 @@ public class AttackEffectPrefabPool : ObjectPoolBase
         //取得したEnumの値の数だけ繰り返し処理
         for (int i = 0; i < attackEffectArray.Length; ++i)
         {
+            var parentObject = GetOrCreatePanetObject(attackEffectNames[i]);
             Debug.Log($"attackEffectNames：{attackEffectNames[i]}");
             
             poolObjectDictionary.Add(attackEffectNames[i], new Stack<GameObject>());
 
             for (int j = 0; j < initializeSize; ++j)
             {
-                var enmeyObjectPrefab = Instantiate(stackAttackEffectObject.attackPrefabObject[i]);
+                var enmeyObjectPrefab = Instantiate(stackAttackEffectObject.attackPrefabObject[i], new(0, 0, 0), Quaternion.identity, parentObject.transform);
                 enmeyObjectPrefab.SetActive(false);
                 poolObjectDictionary[attackEffectNames[i]].Push(enmeyObjectPrefab);
             }
@@ -73,5 +66,29 @@ public class AttackEffectPrefabPool : ObjectPoolBase
         var prefab = poolObjectDictionary[returnObjectName];
 
         prefab.Push(returnObject);
+    }
+
+    //親オブジェクトの生成処理
+    private GameObject GetOrCreatePanetObject(string name)
+    {
+        //オブジェクトが存在しなければ新しく作成する
+        if (!parentObjects.TryGetValue(name, out var parent) || parent == null)
+        {
+            parent = new GameObject(name);
+            parentObjects[name] = parent;
+        }
+        parent.transform.parent = parentTopObject.transform;
+
+        return parent;
+    }
+
+    private IEnumerator EventRegister()
+    {
+        while (EventManager.Instance == null)
+        {
+            yield return null;
+        }
+
+        //EventManager.Instance.finishedGeneratePlayer += Initialize;;
     }
 }

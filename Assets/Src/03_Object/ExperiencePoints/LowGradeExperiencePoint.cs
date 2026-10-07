@@ -51,7 +51,6 @@ public class LowGradeExperiencePoint : ExperiencePointBase, IExperiencePoint
         if (haspermission)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetObject.transform.position, moveSpeed * Time.deltaTime);
-            //transform.position += targetObject.transform.position - this.transform.position;
         }
     }
 

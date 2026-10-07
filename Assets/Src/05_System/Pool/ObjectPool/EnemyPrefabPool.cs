@@ -104,14 +104,4 @@ public class EnemyPrefabPool : ObjectPoolBase
         EventManager.Instance.finishedGeneratePlayer += Initialize;
         EventManager.Instance.enemyObjectPush += Push;
     }
-
-    private IEnumerator EventRegist()
-    {
-        while(EventManager.Instance == null)
-        {
-            yield return null;
-        }
-
-        
-    }
 }

@@ -21,12 +21,16 @@ public class EventManager : MonoBehaviour
 
     public event Action playerGenerate;
 
-    public event Action finishedGeneratePlayer;
+    public event Action finishedGeneratePlayer; //プレイヤーの生成が終了したことを知らせ、その後の処理を動かす
 
-    public event Action<string, GameObject> pushExperiencePoint;
-    public event Action<GameObject> returnExperiencePoint;
+    public event Action<string, GameObject> pushExperiencePoint; //経験値オブジェクトをプールに戻す
+    public event Action<GameObject> returnExperiencePoint; //経験値オブジェクトをコレクションから削除
 
-    public event Action<Vector3> popExperiencePoint;
+    public event Action<Vector3> popExperiencePoint; //経験値オブジェクトをプールから引き出す
+
+    public event Action<string, GameObject> registAttackEffect;
+
+    public event Action<string> popAttackEffect;
 
 
     // Use this for initialization
@@ -82,6 +86,16 @@ public class EventManager : MonoBehaviour
     public void TransitionTitleToGameEvent()
     {
         transitionTitleToGameEvent?.Invoke();
+    }
+
+    public void RegistAttackEffectEvent(string attackObjectName, GameObject attackObject)
+    {
+        registAttackEffect?.Invoke(attackObjectName, attackObject);
+    }
+
+    public void PopAttackEffectEvent(string effectName)
+    {
+        popAttackEffect?.Invoke(effectName);
     }
 
 

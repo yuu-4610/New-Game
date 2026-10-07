@@ -43,9 +43,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //–œ‚ªˆêTitleScene‚©‚çn‚Ü‚ç‚È‚©‚Á‚½ê‡‚Ìˆ—
-        var startScene = SceneManager.GetActiveScene().name;
+        //var startScene = SceneManager.GetActiveScene().name;
         SceneTransition(SceneName.TitleScene);
-        sceneNumber = (int)SceneName.TitleScene;
+        //sceneNumber = (int)SceneName.TitleScene;
     }
 
     // Update is called once per frame

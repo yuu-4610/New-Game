@@ -31,8 +31,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerObject != null)
         {
-            experiencePointSeachGrid.FindMagnetTargets(playerObject.transform.position, 1.5f);
-            TestMethod();
+            if(experiencePointSeachGrid != null)
+            {
+                experiencePointSeachGrid.FindMagnetTargets(playerObject.transform.position, 1.5f);
+                TestMethod();
+            }
         }
     }
 

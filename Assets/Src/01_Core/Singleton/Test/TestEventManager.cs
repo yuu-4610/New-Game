@@ -5,7 +5,9 @@ public class TestEventManager : MonoBehaviour
 {
     public static TestEventManager Instance { get; private set; }
 
-    public event Action TestGridUpdate;
+    public event Action testGridUpdate;
+
+    public event Action<AttackEffectObjectPoolName> testAddAttack;
 
     private void Awake()
     {
@@ -20,6 +22,11 @@ public class TestEventManager : MonoBehaviour
 
     public void TestGridUpdateEvent()
     {
-        TestGridUpdate?.Invoke();
+        testGridUpdate?.Invoke();
+    }
+
+    public void TestAddAttackEvent(AttackEffectObjectPoolName attackName)
+    {
+        testAddAttack?.Invoke(attackName);
     }
 }

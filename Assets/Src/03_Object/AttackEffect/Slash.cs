@@ -5,13 +5,16 @@ public class Slash : MonoBehaviour, IEffectParameter
     private Animator animator; //アニメーター
     private AnimatorStateInfo animatorStateInfo; //アニメーションの状態
     private Transform followObjectTransform; //追従するオブジェクト
+    private Quaternion followObjectRotation;
     private float coolTime; //クールタイム
-    private bool isActive = default; //このオブジェクトが活性化しているか確認
     private float attackPower = default;
     private float coolTimeCount = default; //クールタイムのカウント
     private float followObjectDistance = default; //追従対象との距離
     private float currentPosiotionXValue = default;
     private float curentXPosition = default;
+    private bool isActive = default; //このオブジェクトが活性化しているか確認　今のところ活用場面なし
+    private bool isStartAnime = default;
+    private bool attackPermission = default;
 
 
     private void Awake()
@@ -28,33 +31,13 @@ public class Slash : MonoBehaviour, IEffectParameter
     // Update is called once per frame
     void Update()
     {
-        //非活性かつクールタイムが設定されてない（この攻撃が登録されてない）場合は処理続行不可
-        if (!isActive || coolTime == 0)
+        if (!isActive)
         {
-            Debug.Log("非活性、もしくは登録されてません");
-            return;
+            Debug.Log("非活性状態です");
         }
         TargetObjectFollow();
+        Execute();
 
-        coolTimeCount += Time.deltaTime;
-
-        if (coolTimeCount >= coolTime)
-        {
-            Execute();
-            //現在のアニメーションのステートを取得ー＞想定：Attack
-            animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            //再生されているアニメーションが指定のものかつ、90%終わっているなら終了処理を行う
-            if (animatorStateInfo.IsName(AttackEffectAnimatorName.Attack.ToString()) && animatorStateInfo.normalizedTime > 0.9f) // && animatorStateInfo.normalizedTime > 0.9f
-            {
-                //アニメーションを終了する
-                animator.SetBool(AttackEffectAnimationTriggerName.AttackBool.ToString(), false);
-                //クールタイムのカウントをリセット
-                coolTimeCount = 0f;
-
-                //現在のアニメーションのステートを取得ー＞想定：Attack_Stand
-                animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            }
-        }
     }
 
     private void Initialize()
@@ -74,21 +57,31 @@ public class Slash : MonoBehaviour, IEffectParameter
         UpScale(objectScale);
     }
 
+    public void SetAttackPermission(bool permission)
+    {
+        attackPermission = permission;
+    }
+
+    //座標の更新、プレイヤーを起点に更新していく
     private void TargetObjectFollow()
     {   
-        //1フレーム前に取得した追従しているオブジェクトのX座標より、現在の追従オブジェクトのX座標の方が大きければ
+        //向いている方向に飛ばす
         if (currentPosiotionXValue < followObjectTransform.position.x)
         {
             curentXPosition = followObjectTransform.position.x + followObjectDistance;
 
-            this.transform.rotation = Quaternion.Euler(0, 0, 0);
+            this.transform.rotation = followObjectRotation = Quaternion.Euler(0, 0, 0);
         }
-        //1フレーム前に取得した追従しているオブジェクトのX座標より、現在の追従オブジェクトのX座標の方が小さければ
         else if (currentPosiotionXValue > followObjectTransform.position.x)
         {
             curentXPosition = followObjectTransform.position.x - followObjectDistance;
 
-            this.transform.rotation = Quaternion.Euler(0, 180, 0);
+            this.transform.rotation = followObjectRotation = Quaternion.Euler(0, 180, 0);
+        }
+        else
+        {
+            curentXPosition = (followObjectRotation.y > 0) ? followObjectTransform.position.x - followObjectDistance : followObjectTransform.position.x + followObjectDistance;
+            this.transform.rotation = followObjectRotation;
         }
         //対象を追従
         this.gameObject.transform.position = new Vector3(curentXPosition, followObjectTransform.position.y, followObjectTransform.position.z);
@@ -109,8 +102,34 @@ public class Slash : MonoBehaviour, IEffectParameter
 
     private void Execute()
     {
-        //アニメーションを開始
-        animator.SetBool(AttackEffectAnimationTriggerName.AttackBool.ToString(), true);
+        if (attackPermission)
+        {
+            coolTimeCount += Time.deltaTime;
+
+            if (coolTimeCount >= coolTime)
+            {
+                if (!isStartAnime)
+                {
+                    //アニメーションを開始
+                    animator.SetBool(AttackEffectAnimationTriggerName.AttackBool.ToString(), true);
+                    isStartAnime = true;
+                }
+                //現在のアニメーションのステートを取得ー＞想定：Attack
+                animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                //再生されているアニメーションが指定のものかつ、90%終わっているなら終了処理を行う
+                if (animatorStateInfo.IsName(AttackEffectAnimatorName.Attack.ToString()) && animatorStateInfo.normalizedTime > 0.9f) // && animatorStateInfo.normalizedTime > 0.9f
+                {
+                    //アニメーションを終了する
+                    animator.SetBool(AttackEffectAnimationTriggerName.AttackBool.ToString(), false);
+                    //クールタイムのカウントをリセット
+                    coolTimeCount = 0f;
+                    isStartAnime = false;
+
+                    //現在のアニメーションのステートを取得ー＞想定：Attack_Stand
+                    animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                }
+            }
+        }
     }
 
     //クールタイムをセット

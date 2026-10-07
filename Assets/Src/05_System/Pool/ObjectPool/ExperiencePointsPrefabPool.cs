@@ -8,7 +8,7 @@ public class ExperiencePointsPrefabPool : ObjectPoolBase
     [Header("対象Enumクラスに記載されている順番でアタッチ")]
     [SerializeField] StackExperiencePointObject stackExperiencePointObject;
     private Dictionary<string, Stack<GameObject>> poolObjectDictionary = new Dictionary<string, Stack<GameObject>>();
-    Dictionary<string, GameObject> parentObjects = new Dictionary<string, GameObject>();
+    private Dictionary<string, GameObject> parentObjects = new Dictionary<string, GameObject>();
     private GameObject playerObject;
     public static ExperiencePointsPrefabPool Instance;
     private int initializeSize = 70;
@@ -21,15 +21,7 @@ public class ExperiencePointsPrefabPool : ObjectPoolBase
 
     private void Awake()
     {
-        //シングルトン
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
-        //Titleシーン（一番最初のシーン）で配置したオブジェクトを残す
-        DontDestroyOnLoad(this.gameObject);
+        
     }
 
     void Start()

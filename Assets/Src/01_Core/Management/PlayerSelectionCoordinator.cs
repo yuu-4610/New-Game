@@ -33,7 +33,7 @@ public class PlayerSelectionCoordinator : MonoBehaviour
         var attackObject = attackEffectPrefabPool.Pop(attackEffect.ToString());
 
         //攻撃オブジェクトを渡す
-        EventManager.Instance.RegistAttackEffectEvent(attackEffect.ToString(), attackObject);
+        EventManager.Instance.CheckAttackObjectCollectionEvent(attackEffect.ToString(), attackObject);
     }
 
     private IEnumerator EventRegister()

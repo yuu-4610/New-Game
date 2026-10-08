@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 public class AutoAttackController : MonoBehaviour
 {
     [SerializeField] GameObject followObject; //このクラスをアタッチするオブジェクト
-    private Dictionary<string, IEffectParameter> attackObjectsIF = new Dictionary<string, IEffectParameter>(); //攻撃オブジェクトを設定
+    private Dictionary<string, IAttackObject> attackObjectsIF = new Dictionary<string, IAttackObject>(); //攻撃オブジェクトを設定
     private float attackObjectDistance = default; //追従対象との距離
     private Vector2 attackObjectScale = default; //このオブジェクトのスケール
     private float attackCoolTime = default;
@@ -24,6 +24,7 @@ public class AutoAttackController : MonoBehaviour
     }
     private void OnDisable()
     {
+        EventManager.Instance.checkAttackObjectCollection -= CollectionCheck;
         EventManager.Instance.registAttackEffect -= AttackRegister;
     }
     void Start()
@@ -43,13 +44,13 @@ public class AutoAttackController : MonoBehaviour
         }
     }
 
-    void AttackPermission(IEffectParameter attackIF, bool permission)
+    private void AttackPermission(IAttackObject attackIF, bool permission)
     {
         attackIF.SetAttackPermission(permission);
         Debug.Log($"攻撃の許可");
     }
 
-    void ChangeAttackPermissions(bool attackPermission)
+    private void ChangeAttackPermissions(bool attackPermission)
     {
         for (int i = 0; i < attackObjectsIF.Count; i++)
         {
@@ -57,21 +58,73 @@ public class AutoAttackController : MonoBehaviour
         }
     }
 
+    private void CollectionCheck(string attackObjectName, GameObject attackObject)
+    {
+        //ストック制限に達している場合
+        if (attackObjectsIF.Count >= 5)
+        {
+            Debug.Log("既に存在している攻撃です");
+            //重複チェック
+            var correctionCheck = (attackObjectsIF.ContainsKey(attackObjectName)) ? true : false;
+            if (correctionCheck)
+            {
+                //レベル上げ処理
+                Debug.Log("攻撃のレベルを上げます");
+                //第二予防線（万が一選択可能だった場合
+                if (!attackObjectsIF[attackObjectName].IsUpLevelingPossible())
+                {
+                    Debug.Log("最大レベルです");
+                    return;
+                }
+                attackObjectsIF[attackObjectName].UpLeveling();
+            }
+            else
+            {
+                //コレクションの入れ替えするか確認（候補：Event
+                //登録処理はAttackRegisterで行う
+            }
+        }
+        //ストックに空きがある場合
+        else
+        {
+            Debug.Log("ストックに空きがあります");
+            //重複チェック
+            var correctionCheck = (attackObjectsIF.ContainsKey(attackObjectName)) ? true : false;
+            if (correctionCheck)
+            {
+                //レベル上げ処理
+                Debug.Log("攻撃のレベルを上げます");
+                //第二予防線（万が一選択可能だった場合
+                if (!attackObjectsIF[attackObjectName].IsUpLevelingPossible())
+                {
+                    Debug.Log("最大レベルです");
+                    return;
+                }
+                attackObjectsIF[attackObjectName].UpLeveling();
+            }
+            else
+            {
+                AttackRegister(attackObjectName, attackObject);
+            }
+        }
+    }
+
     //攻撃の追加
     public void AttackRegister(string attackObjectName, GameObject attackObject)
     {
+        
         //バリデーションチェックを入れる
         try
         {
             //取得したオブジェクトにアタッチしているクラスを取得する
-            var attackObjectIF = attackObject.GetComponent<IEffectParameter>();
+            var attackObjectIF = attackObject.GetComponent<IAttackObject>();
             //コレクションに追加
             attackObjectsIF.Add(attackObjectName, attackObjectIF);
             //座標をセット
             attackObjectIF.SetObjectPosition(attackObjectDistance, attackObjectScale);
             //攻撃のクールタイムをセット
             attackObjectIF.InitialSetting(attackCoolTime, followObject);
-            Debug.Log($"攻撃の追加");
+            Debug.Log($"攻撃を追加しました");
 
             AttackPermission(attackObjectIF, true);
         }
@@ -88,6 +141,7 @@ public class AutoAttackController : MonoBehaviour
             yield return null;
         }
 
+        EventManager.Instance.checkAttackObjectCollection += CollectionCheck;
         EventManager.Instance.registAttackEffect += AttackRegister;
         isTestAddAttack = true;
     }

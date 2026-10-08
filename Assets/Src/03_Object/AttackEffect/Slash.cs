@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Slash : MonoBehaviour, IEffectParameter
+public class Slash : MonoBehaviour, IAttackObject
 {
     private Animator animator; //アニメーター
     private AnimatorStateInfo animatorStateInfo; //アニメーションの状態
@@ -15,6 +15,7 @@ public class Slash : MonoBehaviour, IEffectParameter
     private bool isActive = default; //このオブジェクトが活性化しているか確認　今のところ活用場面なし
     private bool isStartAnime = default;
     private bool attackPermission = default;
+    private int level = default;
 
 
     private void Awake()
@@ -60,6 +61,21 @@ public class Slash : MonoBehaviour, IEffectParameter
     public void SetAttackPermission(bool permission)
     {
         attackPermission = permission;
+    }
+
+    public bool IsUpLevelingPossible()
+    {
+        if(level < 5)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void UpLeveling()
+    {
+        level++;
+        //レベルアップによる処理
     }
 
     //座標の更新、プレイヤーを起点に更新していく

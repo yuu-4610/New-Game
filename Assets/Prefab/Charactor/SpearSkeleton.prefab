@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6706077345143875192}
   m_Layer: 0
   m_Name: SpearSkeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,7 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4785d0d0a780ba14daeeeabc7c70ff46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 0}
 --- !u!114 &6706077345143875192
 MonoBehaviour:
   m_ObjectHideFlags: 0

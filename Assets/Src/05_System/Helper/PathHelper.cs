@@ -13,10 +13,12 @@ public static class PathHelper
         {
             case ResourcePath.BGM: return @"Audio\BGM";
             case ResourcePath.SE: return @"Audio\SE";
-            case ResourcePath.enemyClassStorageLocation: return @"Src\02_Charactor\Enemy"; //エネミークラスのファイルを作成するディレクトリの先頭
-            case ResourcePath.importFileStorageLocation: return @"Resources\ImportFile"; //テンプレートファイルのディレクトリ
+            case ResourcePath.enemyClassStorageLocation: return @"Src\02_Charactor\Enemy"; //エネミークラスのファイルを作成するディレクトリの
+            case ResourcePath.importCharacterFileStorageLocation: return @"Resources\ImportFile\Character"; //テンプレートファイルのディレクトリ
+            case ResourcePath.importAttackObjectFileStorageLocation: return @"Resources\ImportFile\AttackObject";
             case ResourcePath.enumFileAndStorageLocation: return @"Src\05_System\Enum"; //追記するEnumクラス
             case ResourcePath.importCSVFileStrageLocation: return @"ImportCSV";
+            case ResourcePath.attackObjectClassStorateLocation: return @"Src\03_Object\AttackObject"; //アタックオブジェクトクラスのファイルを作成するディレクトリ
             default: return "";
         }
     }

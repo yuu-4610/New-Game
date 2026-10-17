@@ -28,7 +28,7 @@ public class EventManager : MonoBehaviour
 
     public event Action<Vector3> popExperiencePoint; //経験値オブジェクトをプールから引き出す
 
-    public event Action<string, GameObject> checkAttackObjectCollection; //攻撃オブジェクトのコレクションチェック
+    public event Action<AttackEffectObjectPoolName, GameObject[]> checkAttackObjectCollection; //攻撃オブジェクトのコレクションチェック
     public event Action<string, GameObject> registAttackEffect;
 
     public event Action<string> popAttackEffect;
@@ -89,7 +89,7 @@ public class EventManager : MonoBehaviour
         transitionTitleToGameEvent?.Invoke();
     }
 
-    public void CheckAttackObjectCollectionEvent(string attackObjectName, GameObject attackObject)
+    public void CheckAttackObjectCollectionEvent(AttackEffectObjectPoolName attackObjectName, GameObject[] attackObject)
     {
         checkAttackObjectCollection?.Invoke(attackObjectName, attackObject);
     }

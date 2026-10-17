@@ -125,12 +125,12 @@ TextureImporter:
       name: 3_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 71
         y: 21
-        width: 116
+        width: 73
         height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: 3_1
       rect:
         serializedVersion: 2
-        x: 143
+        x: 144
         y: 25
-        width: 333
+        width: 72
         height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -166,37 +166,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 3_2
+      name: 3_6
       rect:
         serializedVersion: 2
-        x: 475
+        x: 504
         y: 33
-        width: 11
+        width: 72
         height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c09cd4fe57c6efd10800000000000000
-      internalID: 2161284124966242572
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 3_3
-      rect:
-        serializedVersion: 2
-        x: 487
-        y: 33
-        width: 89
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.25, y: 0.49999937}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -209,11 +187,121 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 3_2
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 25
+        width: 72
+        height: 22
+      alignment: 9
+      pivot: {x: 0.25, y: 0.49999982}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa617a3ae6b5ede4ab26e796dedb06c6
+      internalID: -1245499878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 3_3
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 25
+        width: 72
+        height: 22
+      alignment: 9
+      pivot: {x: 0.25, y: 0.49999982}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1a6d60cd0b756f4b96ae24ae4b5ebf7
+      internalID: 1549851059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 3_4
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 25
+        width: 72
+        height: 22
+      alignment: 9
+      pivot: {x: 0.25, y: 0.49999982}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1239c63badb242444b22f09c485ae714
+      internalID: -434185289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 3_5
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 25
+        width: 72
+        height: 22
+      alignment: 9
+      pivot: {x: 0.25, y: 0.49999982}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a55208dd9c5bae34c9a36a9ae5d5cbc7
+      internalID: 1207701113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 3_7
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 42
+        width: 73
+        height: 30
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b9dc1f5c551f554487ee646a89664dc
+      internalID: 2077599610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 39dcdf5937de2bd46a221d98a3f761ed
     internalID: 0
     vertices: []
     indices: 
@@ -222,7 +310,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      3_0: -6470460504253458178
+      3_1: 6623151957235123224
+      3_2: -1245499878
+      3_3: 1549851059
+      3_4: -434185289
+      3_5: 1207701113
+      3_6: 1646375367856145251
+      3_7: 2077599610
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

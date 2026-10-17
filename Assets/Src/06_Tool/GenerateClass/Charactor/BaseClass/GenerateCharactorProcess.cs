@@ -33,7 +33,8 @@ public class GenerateCharactorProcess
 
     private void Initialize()
     {
-        charactorClassFileTemplateContent = new CharactorClassFileTemplateContent(PathHelper.ToName(ResourcePath.importFileStorageLocation));
+        //取り込むテンプレートファイルのディレクトリ
+        charactorClassFileTemplateContent = new CharactorClassFileTemplateContent(PathHelper.ToName(ResourcePath.importCharacterFileStorageLocation));
 
         //Controllerクラスの名前を指定
         var controllerClassName = $"{charactorName}Controller";

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
@@ -7,6 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
     [SerializeField] ExperiencePointSeachGrid experiencePointSeachGrid;
+    [SerializeField] StackAttackControllerObject[] controllerObjectList;
     //private GameObject Robject;
 
     private GameObject playerObject;
@@ -41,8 +43,15 @@ public class PlayerManager : MonoBehaviour
 
     private void GeneratePlayer()
     {
+        var attackObjects = new GameObject[controllerObjectList.Length];
+        for(int i = 0; i < controllerObjectList.Length; i++)
+        {
+            attackObjects[i] = Instantiate(controllerObjectList[i].attackObject);
+        }
         var player = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         if (playerObject == null) playerObject = player;
+
+        player.GetComponent<AutoAttackController>().SetControllerObject(attackObjects);
 
         //生成したプレイヤーオブジェクトの参照を登録
         ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), player);

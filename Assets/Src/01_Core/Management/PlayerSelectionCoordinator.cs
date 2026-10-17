@@ -28,12 +28,17 @@ public class PlayerSelectionCoordinator : MonoBehaviour
         
     }
 
-    private void AttackEffectPop(AttackEffectObjectPoolName attackEffect)
+    private void AttackEffectPop(AttackEffectObjectPoolName attackObjectName)
     {
-        var attackObject = attackEffectPrefabPool.Pop(attackEffect.ToString());
+        var attackObjects = new GameObject[4];
+        for(int i = 0; i < 4; ++i)
+        {
+            var attackObject = attackEffectPrefabPool.Pop(attackObjectName.ToString());
+            attackObjects[i] = attackObject;
+        }
 
         //攻撃オブジェクトを渡す
-        EventManager.Instance.CheckAttackObjectCollectionEvent(attackEffect.ToString(), attackObject);
+        EventManager.Instance.CheckAttackObjectCollectionEvent(attackObjectName, attackObjects);
     }
 
     private IEnumerator EventRegister()

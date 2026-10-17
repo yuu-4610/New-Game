@@ -453,37 +453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df06c7ec04c8f74dbeb4d4287c0656e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1235004814
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1235004815}
-  m_Layer: 0
-  m_Name: GM
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1235004815
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235004814}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.53433, y: 0.69504, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1814276866 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1675999263334523558, guid: 26f979bd9f30f5f42b754a1c890d84d8, type: 3}
@@ -495,24 +464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea27236ab1e46904c93aa283e28d2fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2105353869 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5107513338313475127, guid: 5417e65ab31483c43aa13b43a9b65469, type: 3}
-  m_PrefabInstance: {fileID: 6926751788664134675}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2105353872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2105353869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edc56fa7df8634a4f9f33e6f53606891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackEffectPrefabPool: {fileID: 1149207717}
 --- !u!1001 &335553070325917372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -711,6 +662,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3676535795478834433, guid: 5417e65ab31483c43aa13b43a9b65469, type: 3}
+      propertyPath: attackEffectPrefabPool
+      value: 
+      objectReference: {fileID: 1149207717}
     - target: {fileID: 5107513338313475127, guid: 5417e65ab31483c43aa13b43a9b65469, type: 3}
       propertyPath: m_Name
       value: PlayerManager
@@ -762,10 +717,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5107513338313475127, guid: 5417e65ab31483c43aa13b43a9b65469, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2105353872}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5417e65ab31483c43aa13b43a9b65469, type: 3}
 --- !u!1001 &7990645506624815382
 PrefabInstance:
@@ -895,4 +847,3 @@ SceneRoots:
   - {fileID: 335553070325917372}
   - {fileID: 7990645506624815382}
   - {fileID: 1144068389}
-  - {fileID: 1235004815}

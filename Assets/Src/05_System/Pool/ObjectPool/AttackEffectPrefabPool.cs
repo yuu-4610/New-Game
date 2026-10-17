@@ -31,17 +31,25 @@ public class AttackEffectPrefabPool : ObjectPoolBase
         //æ“¾‚µ‚½Enum‚Ì’l‚Ì”‚¾‚¯ŒJ‚è•Ô‚µˆ—
         for (int i = 0; i < attackEffectArray.Length; ++i)
         {
-            var parentObject = GetOrCreatePanetObject(attackEffectNames[i]);
-            Debug.Log($"attackEffectNamesF{attackEffectNames[i]}");
-            
-            poolObjectDictionary.Add(attackEffectNames[i], new Stack<GameObject>());
-
-            for (int j = 0; j < initializeSize; ++j)
+            try
             {
-                var enmeyObjectPrefab = Instantiate(stackAttackEffectObject.attackPrefabObject[i], new(0, 0, 0), Quaternion.identity, parentObject.transform);
-                enmeyObjectPrefab.SetActive(false);
-                poolObjectDictionary[attackEffectNames[i]].Push(enmeyObjectPrefab);
+                var parentObject = GetOrCreatePanetObject(attackEffectNames[i]);
+                Debug.Log($"attackEffectNamesF{attackEffectNames[i]}");
+
+                poolObjectDictionary.Add(attackEffectNames[i], new Stack<GameObject>());
+
+                for (int j = 0; j < initializeSize; ++j)
+                {
+                    var enmeyObjectPrefab = Instantiate(stackAttackEffectObject.attackPrefabObject[i], new(0, 0, 0), Quaternion.identity, parentObject.transform);
+                    enmeyObjectPrefab.SetActive(false);
+                    poolObjectDictionary[attackEffectNames[i]].Push(enmeyObjectPrefab);
+                }
             }
+            catch 
+            {
+                continue;
+            }
+
         }
     }
 

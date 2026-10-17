@@ -29,7 +29,8 @@ public enum GenerateParentObjectName
 //オブジェクトに設定するtag名
 public enum TagName
 {
-    
+    Player,
+    Enemy,
 }
 
 
@@ -45,9 +46,11 @@ public enum ResourcePath
     BGM, //BGMが置いてあるパス
     SE, //SEが置いてあるパス
     enemyClassStorageLocation, //生成するエネミークラスパス
-    importFileStorageLocation,
+    importCharacterFileStorageLocation,
+    importAttackObjectFileStorageLocation,
     enumFileAndStorageLocation, //追記するEnumクラスのパス
     importCSVFileStrageLocation,
+    attackObjectClassStorateLocation,
 }
 
 //AudioMixerのGroupName
@@ -61,11 +64,6 @@ public enum AudioMixerGroupName
 public enum AudioFileName
 {
     
-}
-
-public enum AttackEffectObjectPoolName
-{
-    Slash,
 }
 
 public enum ExperiencePointsObjectPoolName
@@ -96,10 +94,18 @@ public enum EnemyAnimationTriggerName
 public enum AttackEffectAnimationTriggerName
 {
     AttackBool,
+    AttackBool_2,
+    AttackFinishBool,
+    AttackTrigger,
+    AttackTrigger_2,
+    AttackTrigger_3,
 }
 public enum AttackEffectAnimatorName
 {
+    Attack_Stand,
     Attack,
+    Attack_2,
+    Attack_Finish,
 }
 public enum EnemyAnimatorStateName
 {
@@ -113,6 +119,9 @@ public enum ImporTextFileName
     ImportCharactorViewControllerTemplate,
     ImportCharactorEnumClassTemplate,
     ImportCharactorStateActionTemplate,
+    ImportAttackObjectTemplate,
+    ImportAttackObjectControllerTemplate,
+    ImportAttackObjectProcessTemplate,
 }
 public enum ImportCSVFileName
 {
@@ -123,6 +132,7 @@ public enum ImportCSVFileName
 public enum RewiteValueName
 {
     CLASS_NAME,
+    CLASS_VARIABLE_NAME,
     VIEWCLASS_NAME,
     VIEWCLASS_NAME_TOLOWER_CASE,
     ENUMCLASS_NAME,

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7050429613859561549}
   - component: {fileID: 5591179321658794305}
+  - component: {fileID: 3676535795478834433}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -46,3 +47,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 213992064612288809, guid: f75f40387af107f4a94b96fb08cfb2b1, type: 3}
   experiencePointSeachGrid: {fileID: 0}
+  controllerObjectList:
+  - attackObjectName: 0
+    attackObject: {fileID: 772930849391834176, guid: 7229d277390670945ad2d998aaad7673, type: 3}
+  - attackObjectName: 1
+    attackObject: {fileID: 6043434743143388234, guid: cc9e255de2e937e4c94cf792887e4a53, type: 3}
+  - attackObjectName: 2
+    attackObject: {fileID: 9048278770704172738, guid: a716ae093064ffa47b32252f414e7d95, type: 3}
+  - attackObjectName: 3
+    attackObject: {fileID: 9021950112766948419, guid: 56d33ee7c3eee304ca4e9ba2da0230fd, type: 3}
+  - attackObjectName: 4
+    attackObject: {fileID: 8632241561011557967, guid: cd3ff137fd63c5c41bb795acff08cf1e, type: 3}
+  - attackObjectName: 5
+    attackObject: {fileID: 2442470802744430635, guid: b61e5b22e75afa648b003f7ea96689e7, type: 3}
+  - attackObjectName: 6
+    attackObject: {fileID: 271108539911071448, guid: 71b7189cc8ad1ee4e93769a2f029286d, type: 3}
+  - attackObjectName: 7
+    attackObject: {fileID: 7151155272845520806, guid: c3e1194f03052fd4988934f28c844a20, type: 3}
+--- !u!114 &3676535795478834433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5107513338313475127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc56fa7df8634a4f9f33e6f53606891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackEffectPrefabPool: {fileID: 0}

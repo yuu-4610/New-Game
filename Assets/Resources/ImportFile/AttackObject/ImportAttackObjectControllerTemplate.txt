@@ -1,0 +1,95 @@
+using UnityEngine;
+
+public class #CLASS_NAME#Controller : MonoBehaviour, IAttackControl
+{
+    private GameObject followObject;
+    private #CLASS_NAME#[] #CLASS_VARIABLE_NAME#ClassReference = new #CLASS_NAME#[3];
+
+    private float coolTimeCount = default; //クールタイムのカウント
+
+    private float coolTime; //クールタイム
+    private int level = default;
+    private bool attackPermission = default;
+
+    void Start()
+    {
+        Initialize();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Execute();
+    }
+
+    public void IsAddObject(GameObject[] attackObject, GameObject followObject)
+    {
+        this.gameObject.transform.parent = followObject.transform;
+        this.followObject = followObject;
+        for (int i = 0; i < attackObject.Length; i++)
+        {
+            #CLASS_VARIABLE_NAME#ClassReference[i] = attackObject[i].GetComponent<#CLASS_NAME#>();
+            //#CLASS_NAME#クラスが保持する参照の取得
+            //処理順を考慮しここに明言
+            #CLASS_VARIABLE_NAME#ClassReference[i].SetClassReference();
+        }
+        //攻撃許可
+        LevelSetting(level);
+        attackPermission = true;
+    }
+
+    public void UpLeveling()
+    {
+        level++;
+        if (level == 2)
+        {
+
+        }
+    }
+
+    private void LevelSetting(int level)
+    {
+        if (level == 1)
+        {
+            //#CLASS_NAME#オブジェクトを１つ用意
+            #CLASS_VARIABLE_NAME#ClassReference[0].AttackPreparation(followObject);
+            #CLASS_VARIABLE_NAME#ClassReference[0].ChangeParameter(new Vector2(1.5f, 1.5f), 1f);
+        }
+        else if (level == 2)
+        {
+            //attackPower = 3f;
+        }
+    }
+
+    //生成後設定
+    private void Initialize()
+    {
+        coolTimeCount = 0f;
+        coolTime = 3f;
+        level = 1;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return level;
+    }
+
+    private void Execute()
+    {
+        if (attackPermission)
+        {
+            Debug.Log("計測開始");
+            coolTimeCount += Time.deltaTime;
+
+            if (coolTimeCount >= coolTime)
+            {
+                if (level == 1)
+                {
+                    #CLASS_VARIABLE_NAME#ClassReference[0].Attack();
+                    //クールタイムのカウントをリセット
+                    coolTimeCount = 0f;
+                }
+            }
+        }
+    }
+}

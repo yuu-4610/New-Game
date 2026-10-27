@@ -44,6 +44,7 @@ public class MagicCircleController : MonoBehaviour, IAttackControl
 
     private void LevelSetting(int level)
     {
+        Debug.Log($"MagicCircle：レベル{level}");
         if (level == 1)
         {
             //MagicCircleオブジェクトを１つ用意
@@ -101,7 +102,6 @@ public class MagicCircleController : MonoBehaviour, IAttackControl
     private void Initialize()
     {
         coolTimeCount = 0f;
-        coolTime = 3f;
     }
 
     public int GetCurrentLevel()
@@ -113,7 +113,6 @@ public class MagicCircleController : MonoBehaviour, IAttackControl
     {
         if (attackPermission)
         {
-            Debug.Log("計測開始");
             coolTimeCount += Time.deltaTime;
 
             if (coolTimeCount >= coolTime)

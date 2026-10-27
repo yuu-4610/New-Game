@@ -12,8 +12,8 @@ public class AutoAttackController : MonoBehaviour
 {
     private GameObject[] attackControllerObject;
     [SerializeField] GameObject followObject; //このクラスをアタッチするオブジェクト
-    private Dictionary<AttackEffectObjectPoolName, IAttackControl> possessionAttackObjectsIF = new Dictionary<AttackEffectObjectPoolName, IAttackControl>(); //所持している攻撃オブジェクト
-    private Dictionary<AttackEffectObjectPoolName, GameObject> controllerObjectCollection = new Dictionary<AttackEffectObjectPoolName, GameObject>();
+    private Dictionary<AttackEffectObjectPoolName, IAttackControl> possessionAttackObjectsIF = new Dictionary<AttackEffectObjectPoolName, IAttackControl>(); //登録した攻撃オブジェクト（のインターフェース）を管理
+    private Dictionary<AttackEffectObjectPoolName, GameObject> controllerObjectCollection = new Dictionary<AttackEffectObjectPoolName, GameObject>(); //各攻撃コントローラのオブジェクトを管理
     private float attackObjectDistance = default; //追従対象との距離
     private Vector2 attackObjectScale = default; //このオブジェクトのスケール
     private float attackCoolTime = default;
@@ -26,7 +26,7 @@ public class AutoAttackController : MonoBehaviour
     }
     private void OnDisable()
     {
-        EventManager.Instance.checkAttackObjectCollection -= CollectionCheck;
+        //EventManager.Instance.checkAttackObjectCollection -= CollectionCheck;
     }
     void Start()
     {
@@ -52,76 +52,77 @@ public class AutoAttackController : MonoBehaviour
         }
     }
 
-
-    private void CollectionCheck(AttackEffectObjectPoolName attackObjectName, GameObject[] attackObject)
+    public int CollectionCheck(AttackEffectObjectPoolName attackObjectName)
     {
+        //重複チェック
+        var collectionCheck = (possessionAttackObjectsIF.ContainsKey(attackObjectName)) ? true : false;
         //ストック制限に達している場合
         if (possessionAttackObjectsIF.Count >= 5)
         {
-            Debug.Log("既に存在している攻撃です");
-            //重複チェック
-            var correctionCheck = (possessionAttackObjectsIF.ContainsKey(attackObjectName)) ? true : false;
-            if (correctionCheck)
+            Debug.Log("既に所持している攻撃です");
+            if (collectionCheck)
             {
                 //第二予防線（万が一レベルMAXの攻撃を獲得できた場合
-                if (possessionAttackObjectsIF[attackObjectName].GetCurrentLevel() >= 5)
+                if (GetAttackLevel(attackObjectName) >= 5)
                 {
                     Debug.Log("レベルが最大です");
-                    return;
+                    return 2;
                 }
                 else
                 {
                     Debug.Log("攻撃のレベルを上げます");
-                    //レベルアップ処理
-                    possessionAttackObjectsIF[attackObjectName].UpLeveling();
+                    return 1;
                 }
             }
+            //攻撃の追加
             else
             {
-                //コレクションの入れ替えするか確認（候補：Event
-                //登録処理はAttackRegisterで行う
+                //新規登録
+                Debug.Log("登録可能です");
+                return 0;
             }
         }
         //ストックに空きがある場合
         else
         {
-            Debug.Log("登録可能です");
+            Debug.Log("ストックに空きがあります");
             //重複チェック
-            var correctionCheck = (possessionAttackObjectsIF.ContainsKey(attackObjectName)) ? true : false;
-            if (correctionCheck)
+            if (collectionCheck)
             {
                 //第二予防線（万が一レベルMAXの攻撃を獲得できた場合
-                if (possessionAttackObjectsIF[attackObjectName].GetCurrentLevel() >= 5)
+                if (GetAttackLevel(attackObjectName) >= 5)
                 {
                     Debug.Log("レベルが最大です");
-                    return;
+                    return 2;
                 }
                 else
                 {
-                    Debug.Log("攻撃のレベルを上げます");
                     //レベルアップ処理
-                    possessionAttackObjectsIF[attackObjectName].UpLeveling();
+                    Debug.Log("攻撃のレベルを上げます");
+                    return 1;
                 }
             }
             else
             {
                 //新規登録
-                AttackRegister(attackObjectName, attackObject);
+                Debug.Log("登録可能です");
+                return 0;
             }
         }
     }
 
     //攻撃の追加
-    private void AttackRegister(AttackEffectObjectPoolName attackObjectName, GameObject[] attackObject)
+    public void AttackRegister(AttackEffectObjectPoolName attackObjectName, GameObject[] attackObject)
     {
-        
-        //バリデーションチェックを入れる
+
+        Debug.Log(attackObjectName.ToString());
         try
         {
-            //コントローラーオブジェクトが登録されていれば
+            //バリデーションチェックを入れる
+            //コントローラーオブジェクトが登録されていなければ投げる
             if (!controllerObjectCollection.ContainsKey(attackObjectName))
             {
-                Debug.Log("登録できない攻撃です");
+                Debug.Log("定義のない攻撃です");
                 throw new Exception();
             }
 
@@ -139,6 +140,29 @@ public class AutoAttackController : MonoBehaviour
         }
     }
 
+    public void UpLeveling(AttackEffectObjectPoolName attackObjectName)
+    {
+        try
+        {
+            if (!controllerObjectCollection.ContainsKey(attackObjectName))
+            {
+                Debug.Log("登録していない攻撃です");
+                throw new Exception();
+            }
+
+            //レベルアップ処理
+            possessionAttackObjectsIF[attackObjectName].UpLeveling();
+        }
+        catch (System.Exception exception)
+        {
+            Debug.Log($"例外が発生しました：{exception}");
+        }
+    }
+    public int GetAttackLevel(AttackEffectObjectPoolName attackObjectName)
+    {
+        return possessionAttackObjectsIF[attackObjectName].GetCurrentLevel();
+    }
+
     public void SetControllerObject(GameObject[] controllerObjects)
     {
         attackControllerObject = controllerObjects;
@@ -151,7 +175,7 @@ public class AutoAttackController : MonoBehaviour
             yield return null;
         }
 
-        EventManager.Instance.checkAttackObjectCollection += CollectionCheck;
+        //EventManager.Instance.checkAttackObjectCollection += CollectionCheck;
         //EventManager.Instance.registAttackEffect += AttackRegister;
         isTestAddAttack = true;
     }

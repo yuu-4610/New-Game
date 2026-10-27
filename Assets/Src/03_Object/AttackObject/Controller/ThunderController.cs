@@ -36,7 +36,7 @@ public class ThunderController : MonoBehaviour, IAttackControl
             thunderClassReference[i].SetClassReference();
         }
         //攻撃許可
-        LevelSetting(level = 3);
+        LevelSetting(level = 1);
         attackPermission = true;
     }
 
@@ -48,6 +48,7 @@ public class ThunderController : MonoBehaviour, IAttackControl
 
     private void LevelSetting(int level)
     {
+        Debug.Log($"Thunder：レベル{level}");
         if (level == 1)
         {
             //Fireオブジェクトを１つ用意
@@ -112,7 +113,6 @@ public class ThunderController : MonoBehaviour, IAttackControl
     private void Initialize()
     {
         coolTimeCount = 0f;
-        coolTime = 3f;
     }
 
     public int GetCurrentLevel()

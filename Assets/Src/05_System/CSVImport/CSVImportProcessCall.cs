@@ -28,4 +28,22 @@ public class CSVImportProcessCall
             return result;
         });
     }
+    public async Task<string[][]> GetAttackObjectMaster(string text)
+    {
+        return await Task.Run(() =>
+        {
+            string[][] result = AttackObjectMaster.CSVDataImport(text);
+
+            return result;
+        });
+    }
+    public async Task<string[][]> GetAttackObjectIconMaster(string text)
+    {
+        return await Task.Run(() =>
+        {
+            string[][] result = AttackObjectIconMaster.CSVDataImport(text);
+
+            return result;
+        });
+    }
 }

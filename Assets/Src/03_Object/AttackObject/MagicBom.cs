@@ -64,8 +64,6 @@ public class MagicBom : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"当たった：{this.gameObject.name}");
-
         if (collision.gameObject.tag == TagName.Enemy.ToString())
         {
             magicBomProcess.CollisionEnemy(collision);

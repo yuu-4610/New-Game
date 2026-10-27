@@ -9,6 +9,8 @@ public class TestEventManager : MonoBehaviour
 
     public event Action<AttackEffectObjectPoolName> testAddAttack;
 
+    public event Action testLevelUpBonusBordActive;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,5 +30,10 @@ public class TestEventManager : MonoBehaviour
     public void TestAddAttackEvent(AttackEffectObjectPoolName attackName)
     {
         testAddAttack?.Invoke(attackName);
+    }
+
+    public void TestLevelUpBonusBordActiveEvent()
+    {
+        testLevelUpBonusBordActive?.Invoke();
     }
 }

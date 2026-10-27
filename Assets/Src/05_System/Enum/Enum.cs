@@ -127,6 +127,8 @@ public enum ImportCSVFileName
 {
     PopPattern,
     PopTime,
+    AttackObjectMaster,
+    AttackObjectIconMaster,
 }
 
 public enum RewiteValueName

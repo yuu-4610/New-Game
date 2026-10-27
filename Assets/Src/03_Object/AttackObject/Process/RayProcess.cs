@@ -7,15 +7,11 @@ public class RayProcess
     private Animator animator;
     private AnimatorStateInfo animatorStateInfo; //アニメーションの状態
     private Quaternion followObjectRotation;
-    private bool isStartAnime = default;
-    private bool isCollision = default;
     private string trantitionTagName;
-    private string attackAnimationName;
     private float currentPosiotionXValue = default;
     private float followObjectDistance = 2f; //追従対象との距離
     private Vector3 currentPosition = default;
     private float attackPower = default;
-    private bool isCordinateLock = default;
     private int objectIndex;
 
 
@@ -77,7 +73,6 @@ public class RayProcess
                 (followObjectRotation.y > 0) ? new Vector3(followObjectTransform.position.x - followObjectDistance, followObjectTransform.position.y, followObjectTransform.position.z) :
                 currentPosition;
         }
-        Debug.Log($"currentXPosition：{currentPosition}");
         //対象を追従
         rayObject.gameObject.transform.position = currentPosition;
 

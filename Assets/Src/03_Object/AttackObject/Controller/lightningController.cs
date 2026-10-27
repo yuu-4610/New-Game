@@ -35,7 +35,7 @@ public class lightningController : MonoBehaviour, IAttackControl
             lightningClassReference[i].SetClassReference();
         }
         //攻撃許可
-        LevelSetting(level = 3);
+        LevelSetting(level = 1);
         attackPermission = true;
     }
 
@@ -47,6 +47,7 @@ public class lightningController : MonoBehaviour, IAttackControl
 
     private void LevelSetting(int level)
     {
+        Debug.Log($"Lightning：レベル{level}");
         if (level == 1)
         {
             lightningClassReference[0].InitializeProcess(followObject);
@@ -106,7 +107,6 @@ public class lightningController : MonoBehaviour, IAttackControl
     private void Initialize()
     {
         coolTimeCount = 0f;
-        coolTime = 3f;
     }
 
     public int GetCurrentLevel()
@@ -118,7 +118,6 @@ public class lightningController : MonoBehaviour, IAttackControl
     {
         if (attackPermission)
         {
-            Debug.Log("計測開始");
             coolTimeCount += Time.deltaTime;
 
             if (coolTimeCount >= coolTime)

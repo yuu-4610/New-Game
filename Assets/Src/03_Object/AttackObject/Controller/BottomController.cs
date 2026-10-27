@@ -3,7 +3,7 @@ using UnityEngine;
 public class BottomController : MonoBehaviour, IAttackControl
 {
     private GameObject followObject;
-    private Bottom[] bottomClassReference = new Bottom[3];
+    private Bottom[] bottomClassReference = new Bottom[4];
 
     private float coolTimeCount = default; //クールタイムのカウント
 
@@ -34,7 +34,7 @@ public class BottomController : MonoBehaviour, IAttackControl
             bottomClassReference[i].SetClassReference();
         }
         //攻撃許可
-        LevelSetting(level = 5);
+        LevelSetting(level = 1);
         attackPermission = true;
     }
     public void UpLeveling()
@@ -45,6 +45,7 @@ public class BottomController : MonoBehaviour, IAttackControl
 
     private void LevelSetting(int level)
     {
+        Debug.Log($"Bottom：レベル{level}");
         if (level == 1)
         {
             //Fireオブジェクトを１つ用意
@@ -97,7 +98,6 @@ public class BottomController : MonoBehaviour, IAttackControl
     private void Initialize()
     {
         coolTimeCount = 0f;
-        level = 1;
     }
 
     public int GetCurrentLevel()
@@ -110,7 +110,6 @@ public class BottomController : MonoBehaviour, IAttackControl
         if (attackPermission)
         {
             coolTimeCount += Time.deltaTime;
-            Debug.Log($"計測開始：{coolTimeCount}");
 
             if (coolTimeCount >= coolTime)
             {

@@ -677,6 +677,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1399015938883130298, guid: 5417e65ab31483c43aa13b43a9b65469, type: 3}
+      propertyPath: attackEffectPrefabPool
+      value: 
+      objectReference: {fileID: 1458295979}
     - target: {fileID: 3676535795478834433, guid: 5417e65ab31483c43aa13b43a9b65469, type: 3}
       propertyPath: attackEffectPrefabPool
       value: 

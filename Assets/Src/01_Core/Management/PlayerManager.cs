@@ -33,11 +33,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerObject != null)
         {
-            if(experiencePointSeachGrid != null)
-            {
-                experiencePointSeachGrid.FindMagnetTargets(playerObject.transform.position, 1.5f);
-                TestMethod();
-            }
+            //if(experiencePointSeachGrid != null)
+            //{
+            //    experiencePointSeachGrid.FindMagnetTargets(playerObject.transform.position, 1.5f);
+            //    TestMethod();
+            //}
         }
     }
 
@@ -47,14 +47,16 @@ public class PlayerManager : MonoBehaviour
         for(int i = 0; i < controllerObjectList.Length; i++)
         {
             attackObjects[i] = Instantiate(controllerObjectList[i].attackObject);
+            attackObjects[i].transform.parent = this.gameObject.transform;
         }
         var player = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         if (playerObject == null) playerObject = player;
+        playerObject.transform.parent = this.gameObject.transform;
 
-        player.GetComponent<AutoAttackController>().SetControllerObject(attackObjects);
+        playerObject.GetComponent<AutoAttackController>().SetControllerObject(attackObjects);
 
         //生成したプレイヤーオブジェクトの参照を登録
-        ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), player);
+        ObjectManager.Instance.Register(AcquisitionObjectName.Player.ToString(), playerObject);
 
         //プレイヤー生成後に
         EventManager.Instance.FinishedGeneratePlayerEvent();

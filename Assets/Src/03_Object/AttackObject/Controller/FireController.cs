@@ -46,7 +46,8 @@ public class FireController : MonoBehaviour, IAttackControl
 
     private void LevelSetting(int level)
     {
-        if(level == 1)
+        Debug.Log($"Fire：レベル{level}");
+        if (level == 1)
         {
             //Fireオブジェクトを１つ用意
             fireClassReference[0].InitializeProcess(followObject, 0);

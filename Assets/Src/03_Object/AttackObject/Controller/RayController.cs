@@ -24,6 +24,7 @@ public class RayController : MonoBehaviour, IAttackControl
 
     public void IsAddObject(GameObject[] attackObject, GameObject followObject)
     {
+        Debug.Log($"RayÅFÉåÉxÉã{level}");
         this.gameObject.transform.parent = followObject.transform;
         this.followObject = followObject;
         for (int i = 0; i < attackObject.Length; i++)
@@ -34,7 +35,7 @@ public class RayController : MonoBehaviour, IAttackControl
             rayClassReference[i].SetClassReference();
         }
         //çUåÇãñâ¬
-        LevelSetting(level = 5);
+        LevelSetting(level = 1);
         attackPermission = true;
     }
 
@@ -108,8 +109,6 @@ public class RayController : MonoBehaviour, IAttackControl
     private void Initialize()
     {
         coolTimeCount = 0f;
-        coolTime = 3f;
-        level = 1;
     }
 
     public int GetCurrentLevel()

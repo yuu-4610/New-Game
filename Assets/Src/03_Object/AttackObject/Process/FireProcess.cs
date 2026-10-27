@@ -86,7 +86,6 @@ public class FireProcess
         if (animatorStateInfo.IsName(AttackEffectAnimatorName.Attack.ToString()))
         {
             animator.SetBool(trantitionTagName, false);
-            animator.SetTrigger(trantitionTagName_2);
         }
 
         amountOfMovement = Vector3.zero;

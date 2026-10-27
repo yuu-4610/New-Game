@@ -34,7 +34,6 @@ public class AttackEffectPrefabPool : ObjectPoolBase
             try
             {
                 var parentObject = GetOrCreatePanetObject(attackEffectNames[i]);
-                Debug.Log($"attackEffectNamesÅF{attackEffectNames[i]}");
 
                 poolObjectDictionary.Add(attackEffectNames[i], new Stack<GameObject>());
 

@@ -33,6 +33,10 @@ public class EventManager : MonoBehaviour
 
     public event Action<string> popAttackEffect;
 
+    public event Action levelUpBonusBoardActive;
+
+    public event Action levelUpBonusBoardInactive;
+
 
     // Use this for initialization
     private void Awake()
@@ -102,6 +106,16 @@ public class EventManager : MonoBehaviour
     public void PopAttackEffectEvent(string effectName)
     {
         popAttackEffect?.Invoke(effectName);
+    }
+
+    public void LevelUpBonusBoardInactiveEvent()
+    {
+        levelUpBonusBoardInactive?.Invoke();
+    }
+
+    public void LevelUpBonusBoardActiveEvent()
+    {
+        levelUpBonusBoardActive?.Invoke();
     }
 
 

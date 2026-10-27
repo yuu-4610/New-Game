@@ -34,7 +34,7 @@ public class ShashController : MonoBehaviour, IAttackControl
             slashClassReference[i].SetClassReference();
         }
         //攻撃許可
-        LevelSetting(level = 5);
+        LevelSetting(level = 1);
         attackPermission = true;
     }
 
@@ -46,6 +46,7 @@ public class ShashController : MonoBehaviour, IAttackControl
 
     private void LevelSetting(int level)
     {
+        Debug.Log($"Slash：レベル{level}");
         if (level == 1)
         {
             //Slashオブジェクトを１つ用意
@@ -92,7 +93,6 @@ public class ShashController : MonoBehaviour, IAttackControl
     private void Initialize()
     {
         coolTimeCount = 0f;
-        level = 1;
     }
 
     public int GetCurrentLevel()

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class LevelUpBonus
 {
-    private PlayerObjectMediator playerObjectMediator;
+    private PlayerManager playerManager;
     private CSVImportProcessCall csvImportProcessCall; //CSV取得用
     private GameObject[] attackSelectButton; //複製したレベルアップボーナス用UI
     private UnityAction[] listener = new UnityAction[3];
@@ -27,7 +27,7 @@ public class LevelUpBonus
     private bool isStart;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public LevelUpBonus(PlayerObjectMediator playerObjectMediator, GameObject[] attackSelectButton, Transform[] objectArrangementPosition)
+    public LevelUpBonus(PlayerManager playerManager, GameObject[] attackSelectButton, Transform[] objectArrangementPosition)
     {
         csvImportProcessCall = new CSVImportProcessCall();
         FileImport();
@@ -36,7 +36,7 @@ public class LevelUpBonus
             remainingNumbers.Add(i);
         }
 
-        this.playerObjectMediator = playerObjectMediator;
+        this.playerManager = playerManager;
         this.attackSelectButton = attackSelectButton;
         Initialize(objectArrangementPosition);
     }
@@ -64,7 +64,6 @@ public class LevelUpBonus
     private void Initialize(Transform[] objectArrangementPosition)
     {
         selectUINumberOfPiece = objectArrangementPosition.Length;
-        Debug.Log($"selectUINumberOfPiece：{selectUINumberOfPiece}");
         for (int i = 0; i < objectArrangementPosition.Length; ++i)
         {
             //座標の指定
@@ -74,7 +73,7 @@ public class LevelUpBonus
 
     private void LevelUpBonusProcess(int[] indexs)
     {
-        RestSelectUI();
+        //RestSelectUI();
         //３回行う
         for (int i = 0; i < selectUINumberOfPiece; ++i)
         {
@@ -85,7 +84,7 @@ public class LevelUpBonus
                 continue;
             }
             //指定オブジェクトのレベル＋１を表示　＜－CSVから取得
-            var level = playerObjectMediator.CollectionChek(indexs[i]);
+            var level = playerManager.CollectionChek(indexs[i]);
             if (level == 9)
             {
                 Debug.Log("定義にありません");
@@ -93,21 +92,20 @@ public class LevelUpBonus
             }
             Debug.Log($"{(AttackEffectObjectPoolName)indexs[i]}　Lev：{level}");
 
+            //ボタンオブジェクトの子オブジェクトから指定名のオブジェクトを取得
             //アイコンを設定
-            attackSelectButton[i].transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>(csvIconPathData[(int)indexs[i]][1].Trim().Trim('\uFEFF'));
-            
-            //attackSelectButton[i].transform.Find("LevelText").GetComponent<TextMeshProUGUI>().text = $"Lev.{csvTextData[indexs[i] * 5][1]}";
-            attackSelectButton[i].transform.Find("LevelText").GetComponent<TextMeshProUGUI>().text = $"Lev.{csvTextData[(indexs[i] * 5) + level][1]}";
-            //attackSelectButton[i].transform.Find("Text").GetComponent<TextMeshProUGUI>().text = csvTextData[indexs[i] * 5][2];
-            attackSelectButton[i].transform.Find("Text").GetComponent<TextMeshProUGUI>().text = csvTextData[(indexs[i] * 5) + level][2];
+            attackSelectButton[i].transform.Find(ReferenceUIObjectName.Icon.ToString()).GetComponent<Image>().sprite = Resources.Load<Sprite>(csvIconPathData[(int)indexs[i]][1].Trim().Trim('\uFEFF'));
+            //テキストの設定
+            attackSelectButton[i].transform.Find(ReferenceUIObjectName.AttackName.ToString()).GetComponent<TextMeshProUGUI>().text = $"{csvTextData[(indexs[i] * 5) + level][1]}";
+            attackSelectButton[i].transform.Find(ReferenceUIObjectName.LevelText.ToString()).GetComponent<TextMeshProUGUI>().text = $"Lev.{csvTextData[(indexs[i] * 5) + level][2]}";
+            attackSelectButton[i].transform.Find(ReferenceUIObjectName.Text.ToString()).GetComponent<TextMeshProUGUI>().text = csvTextData[(indexs[i] * 5) + level][3];
 
             AttackEffectObjectPoolName attackEffectObjectPoolName = (AttackEffectObjectPoolName)indexs[i];
             attackEffectObjectPoolNames[i] = attackEffectObjectPoolName;
             //ボタンに引数を設定
             listeners[i] = () => SelectButtonProcess(attackEffectObjectPoolName);
             attackSelectButton[i].GetComponent<Button>().onClick.AddListener(listeners[i]);
-            //attackSelectButton[i].GetComponent<Button>().onClick.AddListener(() => SelectButtonProcess(attackEffectObjectPoolNames[i]));
-
+            
             //活性化
             attackSelectButton[i].SetActive(true);
         }
@@ -117,7 +115,7 @@ public class LevelUpBonus
 
     private void SelectButtonProcess(AttackEffectObjectPoolName attackEffectObjectName)
     {
-        playerObjectMediator.ContorllerCollectionChek(attackEffectObjectName);
+        playerManager.ContorllerCollectionChek(attackEffectObjectName);
     }
 
     public void RemoveNumberList(int index)

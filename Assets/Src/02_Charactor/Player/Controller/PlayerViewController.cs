@@ -50,6 +50,10 @@ public class PlayerViewController : MonoBehaviour
 
     public void PlayerDieAnimation()
     {
-        
+        animator.SetTrigger(PlayerAnimationTriggerName.DieTrigger.ToString());
+    }
+    public void PlayerRestDieAnimation()
+    {
+        animator.ResetTrigger(PlayerAnimationTriggerName.DieTrigger.ToString());
     }
 }

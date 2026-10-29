@@ -46,4 +46,22 @@ public class CSVImportProcessCall
             return result;
         });
     }
+    public async Task<string[][]> GetCharaMaster(string text)
+    {
+        return await Task.Run(() =>
+        {
+            string[][] result = CharacterMaster.CSVDataImport(text);
+
+            return result;
+        });
+    }
+    public async Task<string[][]> GetCharaStatusData(string text)
+    {
+        return await Task.Run(() =>
+        {
+            string[][] result = CharacterStatusData.CSVDataImport(text);
+
+            return result;
+        });
+    }
 }

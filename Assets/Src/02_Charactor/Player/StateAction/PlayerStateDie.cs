@@ -10,7 +10,8 @@ public class PlayerStateDie : State<PlayerController>
 
     public override void Enter()
     {
-        
+        //アニメーション
+        playerViewController.PlayerDieAnimation();
     }
 
     public override void Execute()
@@ -20,7 +21,7 @@ public class PlayerStateDie : State<PlayerController>
 
     public override void Exit()
     {
-        //アニメーション
-        playerViewController.PlayerDieAnimation();
+        //ゲーム終了処理の通知
+        Debug.Log("ゲーム終了");
     }
 }

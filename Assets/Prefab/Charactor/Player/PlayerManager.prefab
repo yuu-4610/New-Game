@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7050429613859561549}
   - component: {fileID: 5591179321658794305}
-  - component: {fileID: 1399015938883130298}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -64,15 +63,5 @@ MonoBehaviour:
     attackObject: {fileID: 271108539911071448, guid: 71b7189cc8ad1ee4e93769a2f029286d, type: 3}
   - attackObjectName: 7
     attackObject: {fileID: 7151155272845520806, guid: c3e1194f03052fd4988934f28c844a20, type: 3}
---- !u!114 &1399015938883130298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5107513338313475127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8e9e6fad350b0428ec182ab724ea9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  attackEffectPrefabPool: {fileID: 0}
+  levelUpBonusBoard: {fileID: 0}

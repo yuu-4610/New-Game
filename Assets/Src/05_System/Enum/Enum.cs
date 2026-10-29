@@ -23,7 +23,7 @@ public enum TestSceneName
 //生成する親オブジェクト名
 public enum GenerateParentObjectName
 {
-    
+    selectButtonParentObject,
 }
 
 //オブジェクトに設定するtag名
@@ -82,6 +82,7 @@ public enum PlayerAnimationTriggerName
 {
     MoveBool,
     DieBool,
+    DieTrigger,
 }
 
 public enum EnemyAnimationTriggerName
@@ -129,6 +130,8 @@ public enum ImportCSVFileName
     PopTime,
     AttackObjectMaster,
     AttackObjectIconMaster,
+    CharacterMaster,
+    CharacterStatusData,
 }
 
 public enum RewiteValueName
@@ -143,3 +146,13 @@ public enum RewiteValueName
     CHARACTOR_NAME,
 }
 
+public enum ReferenceUIObjectName
+{
+    Icon,
+    LevelText,
+    Text,
+    AttackName,
+    FillArea,
+    Fill,
+    Background,
+}

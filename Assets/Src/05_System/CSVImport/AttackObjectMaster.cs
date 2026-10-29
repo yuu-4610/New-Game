@@ -16,11 +16,12 @@ public class AttackObjectMaster
 
             string[] values = lines[i].Split(',');
 
-            string objectId = values[0];
-            string level = values[1];
-            string explanation = values[2];
+            var objectId = values[0];
+            var attackName = values[1];
+            var level = values[2];
+            var explanation = values[3];
 
-            data[i - 1] = new string[] { objectId, level, explanation };
+            data[i - 1] = new string[] { objectId, attackName, level, explanation };
         }
 
         return data;

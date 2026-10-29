@@ -9,6 +9,10 @@ public abstract class StateMachine<T, TEnum> : MonoBehaviour where T : class whe
     public State<T> currentState;
     public List<State<T>> stateList = new List<State<T>>();
     private bool canChangeState = true;
+    public float hp;
+    private float power;
+    private float speed;
+    public int level;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()

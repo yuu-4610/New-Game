@@ -1,16 +1,13 @@
 using UnityEngine;
 
-public class TimeStopProcess : MonoBehaviour
+public class TimeStopProcess
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void TimeStop()
     {
-        
+        Time.timeScale = 0;
     }
-
-    // Update is called once per frame
-    void Update()
+    public void TimeReStart()
     {
-        
+        Time.timeScale = 1;
     }
 }

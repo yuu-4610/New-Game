@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class LevelUpBonusBoard : MonoBehaviour
 {
-    [SerializeField] PlayerObjectMediator playerObjectMediator;
+    [SerializeField] PlayerManager playerManager;
     [SerializeField] GameObject selectButtonPrefab; //レベルアップボーナス選択用UI
     [SerializeField] GameObject LevelUpBonusBoardUI;
     [SerializeField] Transform[] positionObject; //配置用座標
     private LevelUpBonus levelUpBonus;
+    private TimeStopProcess timeStopProcess;
     private int selectUINumberOfPiece = 3;
 
 
@@ -21,9 +22,11 @@ public class LevelUpBonusBoard : MonoBehaviour
     }
     void Start()
     {
-        //
+        timeStopProcess = new TimeStopProcess();
+
+        //親オブジェクトの作成
         var parentObject = new GameObject();
-        parentObject.name = "parentObject";
+        parentObject.name = GenerateParentObjectName.selectButtonParentObject.ToString();
         parentObject.transform.parent = this.gameObject.transform;
 
         //選択用ボタンの生成
@@ -37,7 +40,7 @@ public class LevelUpBonusBoard : MonoBehaviour
             selectButtons[i].transform.parent = parentObject.transform;
         }
 
-        levelUpBonus = new LevelUpBonus(playerObjectMediator, selectButtons, positionObject);
+        levelUpBonus = new LevelUpBonus(playerManager, selectButtons, positionObject);
 
         //Editorでも設定
         LevelUpBonusBoardUI.SetActive(false);
@@ -50,6 +53,7 @@ public class LevelUpBonusBoard : MonoBehaviour
     }
     public void LevelUpProsess()
     {
+        timeStopProcess.TimeStop();
         LevelUpBonusBoardUI.SetActive(true);
         levelUpBonus.ActiveSelectButton();
     }
@@ -57,6 +61,7 @@ public class LevelUpBonusBoard : MonoBehaviour
     {
         LevelUpBonusBoardUI.SetActive(false);
         levelUpBonus.RestSelectUI();
+        timeStopProcess.TimeReStart();
     }
     public void RemoveAttackObjectNumberList(int number)
     {

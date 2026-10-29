@@ -37,6 +37,9 @@ public class EventManager : MonoBehaviour
 
     public event Action levelUpBonusBoardInactive;
 
+    public event Action<int> playerHPBarSetting;
+
+    public event Action<int> playerRestHpBarSetting;
 
     // Use this for initialization
     private void Awake()
@@ -116,6 +119,16 @@ public class EventManager : MonoBehaviour
     public void LevelUpBonusBoardActiveEvent()
     {
         levelUpBonusBoardActive?.Invoke();
+    }
+
+    public void PlayerHPBarSettingEvent(int max)
+    {
+        playerHPBarSetting?.Invoke(max);
+    }
+
+    public void PlayerRestHpBarSettingEvent(int restHp)
+    {
+        playerRestHpBarSetting?.Invoke(restHp);
     }
 
 

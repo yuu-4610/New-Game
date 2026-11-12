@@ -47,7 +47,6 @@ public class lightningController : MonoBehaviour, IAttackControl
 
     private void LevelSetting(int level)
     {
-        Debug.Log($"Lightning：レベル{level}");
         if (level == 1)
         {
             lightningClassReference[0].InitializeProcess(followObject);

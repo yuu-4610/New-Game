@@ -155,4 +155,10 @@ public enum ReferenceUIObjectName
     FillArea,
     Fill,
     Background,
+    ParentObject,
+}
+
+public enum UIObjectName
+{
+    HPBar,
 }

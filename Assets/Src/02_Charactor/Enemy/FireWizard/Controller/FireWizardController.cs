@@ -4,6 +4,7 @@ public class FireWizardController : StateMachine<FireWizardController, FireWizar
 {
     private GameObject targetObject;
     private FireWizardViewController fireWizardViewController;
+    private HPBarController hpBarController;
     public Vector2Int currentCell { get; private set; }
 
     private void Awake()
@@ -36,6 +37,10 @@ public class FireWizardController : StateMachine<FireWizardController, FireWizar
     public void SetTargetObject(GameObject targetObject)
     {
         this.targetObject = targetObject;
+    }
+    public void SetHPBarReference(HPBarController hpBarController)
+    {
+        this.hpBarController = hpBarController;
     }
 
     public void SetCurrentCell(Vector2Int currentCell)

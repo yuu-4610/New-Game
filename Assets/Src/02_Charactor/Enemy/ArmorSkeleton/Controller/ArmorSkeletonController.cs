@@ -4,6 +4,7 @@ public class ArmorSkeletonController : StateMachine<ArmorSkeletonController, Arm
 {
     private GameObject targetObject;
     private ArmorSkeletonViewController armorSkeletonViewController;
+    private HPBarController hpBarController;
     public Vector2Int currentCell { get; private set; }
 
     private void Awake()
@@ -41,6 +42,10 @@ public class ArmorSkeletonController : StateMachine<ArmorSkeletonController, Arm
     public GameObject GetGameObject()
     {
         return this.targetObject;
+    }
+    public void SetHPBarReference(HPBarController hpBarController)
+    {
+        this.hpBarController = hpBarController;
     }
 
     public void SetCurrentCell(Vector2Int currentCell)

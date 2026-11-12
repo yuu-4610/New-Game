@@ -52,7 +52,7 @@ public class AutoAttackController : MonoBehaviour
         }
     }
 
-    public int CollectionCheck(AttackEffectObjectPoolName attackObjectName)
+    public int LevelCheck(AttackEffectObjectPoolName attackObjectName)
     {
         //重複チェック
         var collectionCheck = (possessionAttackObjectsIF.ContainsKey(attackObjectName)) ? true : false;

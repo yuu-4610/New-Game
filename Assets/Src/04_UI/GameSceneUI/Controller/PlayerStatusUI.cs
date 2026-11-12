@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerStatusUI : MonoBehaviour
 {
-    [SerializeField] GameObject playerPositionHPBar; //プレイヤーに追跡するHPバー
     [SerializeField] Slider playerHPBar; //プレイヤーに追跡するHPバー
     private HPBarProcess hpBarProcess;
     private GameObject HPBar;
@@ -14,9 +13,7 @@ public class PlayerStatusUI : MonoBehaviour
 
     void Start()
     {
-        //HPBar = Instantiate(playerPositionHPBar, this.gameObject.transform);
-
-        hpBarProcess = new HPBarProcess(HPBar, playerHPBar);
+        hpBarProcess = new HPBarProcess(playerHPBar);
     }
     private void Update()
     {
@@ -32,14 +29,7 @@ public class PlayerStatusUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        EventManager.Instance.finishedGeneratePlayer -= BarInitialize;
-    }
-
-    private void BarInitialize()
-    {
-        //UI初期化処理
-        hpBarProcess.HpBarInitialize();
-        //hpBarProcess.HpSetting();
+        
     }
 
     private void Initialize()
@@ -51,7 +41,7 @@ public class PlayerStatusUI : MonoBehaviour
     {
         //最大HP（MAXゲージ）の設定
         //想定ー＞レベルアップ時
-        hpBarProcess.BarHpSetting(maxHP);
+        hpBarProcess.HpBarSetting(maxHP);
     }
     private void PlayerRestHPBarSetting(int restHP)
     {
@@ -65,7 +55,6 @@ public class PlayerStatusUI : MonoBehaviour
             yield return null;
         }
 
-        EventManager.Instance.finishedGeneratePlayer += BarInitialize;
         EventManager.Instance.playerHPBarSetting += PlayerHPBarSetting;
         EventManager.Instance.playerRestHpBarSetting += PlayerRestHPBarSetting;
         EventManager.Instance.finishedGeneratePlayer += Initialize;

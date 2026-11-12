@@ -4,6 +4,7 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
 {
     private GameObject targetObject;
     private SkeletonViewController SkeletonViewController;
+    private HPBarController hpBarController;
     public Rigidbody2D rigidbody2D { get; private set; } //各ステートクラスで使用
 
     public Vector2 moveVectol { get; private set; }
@@ -51,7 +52,9 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
         //HPを減らす
         hp -= damage;
 
-        if(hp <= 0)
+        hpBarController.RestHPBarSetting((int)damage);
+
+        if (hp <= 0)
         {
             ChangeStateCall(SkeletonState.Die);
         }
@@ -59,6 +62,11 @@ public class SkeletonController : StateMachine<SkeletonController, SkeletonState
     public void SetTargetObject(GameObject targetObject)
     {
         this.targetObject = targetObject;
+    }
+
+    public void SetHPBarReference(HPBarController hpBarController)
+    {
+        this.hpBarController = hpBarController;
     }
 
     public void SetCurrentCell(Vector2Int currentCell)

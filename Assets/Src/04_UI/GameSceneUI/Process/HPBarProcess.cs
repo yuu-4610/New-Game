@@ -8,21 +8,18 @@ public class HPBarProcess
     private Slider playerHPBar; //プレイヤーに追跡するHPバー
     private Image restHp;
 
-    public HPBarProcess(GameObject playerPositionHPBar, Slider playerHPBar)
+    public HPBarProcess(Slider playerHPBar)
     {
         this.playerHPBar = playerHPBar;
-        //this.playerPositionHPBar = playerPositionHPBar.GetComponent<Slider>();
-    }
 
-    public void HpBarInitialize()
-    {
-        //BarSetting(playerPositionHPBar);
         BarSetting(playerHPBar);
     }
-    public void BarHpSetting(int maxHP)
+
+    public void HpBarSetting(int maxHP)
     {
         //playerPositionHPBar.maxValue = maxHP;
         //playerPositionHPBar.value = maxHP;
+        Debug.Log($"プレイヤーステータスHPバーmaxHP：{maxHP}");
         playerHPBar.maxValue = maxHP;
         playerHPBar.value = maxHP;
     }

@@ -5,7 +5,7 @@ public class SpearSkeletonController : StateMachine<SpearSkeletonController, Spe
 {
     private GameObject targetObject;
     private SpearSkeletonViewController spearSkeletonViewController;
-
+    private HPBarController hpBarController;
     public Rigidbody2D rigidbody2D { get; private set; }
     public Vector2 moveVectol { get; private set; }
     public float distanceDifference { get; private set; }
@@ -56,7 +56,12 @@ public class SpearSkeletonController : StateMachine<SpearSkeletonController, Spe
     {
         this.targetObject = targetObject;
     }
-    
+
+    public void SetHPBarReference(HPBarController hpBarController)
+    {
+        this.hpBarController = hpBarController;
+    }
+
     public void SetCurrentCell(Vector2Int currentCell)
     {
         this.currentCell = currentCell;

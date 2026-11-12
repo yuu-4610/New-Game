@@ -12,6 +12,7 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
     private PlayerInputController playerInputController;
     private PlayerInputActions playerInputActions;
     private PlayerViewController playerViewController;
+    private HPBarController hpBarController;
     private int level = 0;
     private int restHP;
     private int power;
@@ -20,10 +21,14 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
 
     private void Awake()
     {
+        
+    }
+    
+    public void Initialize(HPBarController hpBarController)
+    {
         playerViewController = GetComponent<PlayerViewController>();
         playerInputActions = new PlayerInputActions();
         playerInputController = new PlayerInputController(playerInputActions);
-
 
         //Stateクラスの追加
         stateList.Add(new PlayerStateIdle(this, playerInputActions, playerViewController));
@@ -31,18 +36,14 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
         stateList.Add(new PlayerStateDie(this, playerViewController));
 
         if (gameObject.tag != AcquisitionObjectName.Player.ToString()) gameObject.tag = AcquisitionObjectName.Player.ToString();
+
+        this.hpBarController = hpBarController;
+        ChangeStateCall(PlayerState.Idle);
     }
-    private void OnEnable()
-    {
-        
-    }
-    private void OnDisable()
-    {
-        
-    }
+
     void Start()
     {
-        ChangeStateCall(PlayerState.Idle);
+        
     }
 
     // Update is called once per frame
@@ -77,7 +78,9 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
         restHP = maxHP;
         this.power = power;
 
-        //HPバーの設定
+        //プレイヤーの下に表示するHPバーの設定
+        hpBarController.HPBarSetting(restHP);
+        //プレイヤーステータスのHPバーの設定
         EventManager.Instance.PlayerHPBarSettingEvent(restHP);
     }
 
@@ -85,11 +88,11 @@ public class PlayerController : StateMachine<PlayerController, PlayerState>, IPl
     {
         //ダメージ減少
         restHP -= (int)damage;
-        Debug.Log($"残りHP{restHP}");
+        //Debug.Log($"残りHP{restHP}");
         //HPバーの設定（HP減少）
         EventManager.Instance.PlayerRestHpBarSettingEvent(restHP);
 
-        if(restHP <= 0) ChangeStateCall(PlayerState.Die);
+        //if(restHP <= 0) ChangeStateCall(PlayerState.Die);
     }
 
     public void SetExperiencePoint(int point)

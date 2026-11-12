@@ -8,11 +8,14 @@ public class EnemyPrefabPool : ObjectPoolBase
 {
     [Header("対象Enumクラスに記載されている順番でアタッチ")]
     [SerializeField] StackEnemyObject stackEnemyObject;
+    [SerializeField] GameObject hpBarPrefab;
+    [SerializeField] Camera uiCamera;
+    [SerializeField] UIObjectPrefabPool uiObjectPrefabPool;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private Dictionary<string, Stack<GameObject>> poolObjectDictionary = new Dictionary<string, Stack<GameObject>>();
     Dictionary<string, GameObject> parentObjects = new Dictionary<string, GameObject>();
-    private Stack<GameObject> skeletontPool = new();
+    private Stack<GameObject> hpBarStack = new();
     private GameObject playerObject;
     //public bool isInitialize = default;
     private int initializeSize = 30;
@@ -45,6 +48,13 @@ public class EnemyPrefabPool : ObjectPoolBase
                 poolObjectDictionary[enemyNames[i]].Push(enmeyObjectPrefab);
             }
         }
+        for (int i = 0; i <= 150; ++i)
+        {
+            var hpBar = Instantiate(hpBarPrefab);
+            hpBar.SetActive(false);
+
+            hpBarStack.Push(hpBar);
+        }
 
         //isInitialize = true;
     }
@@ -68,6 +78,13 @@ public class EnemyPrefabPool : ObjectPoolBase
         }
 
         var prefab = poolObjectDictionary[objectName].Pop();
+        var hpBar = uiObjectPrefabPool.Pop(UIObjectName.HPBar.ToString());
+
+        //エネミーオブジェクトとHPバー（UI）を紐づける
+        hpBar.transform.parent = prefab.transform;
+        var classReference = hpBar.GetComponent<HPBarController>();
+        classReference.Initialize(prefab, uiCamera, 10);
+        prefab.GetComponent<IEnemy>().SetHPBarReference(classReference);
         prefab.SetActive(true);
 
         return prefab;

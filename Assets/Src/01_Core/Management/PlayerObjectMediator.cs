@@ -55,7 +55,7 @@ public class PlayerObjectMediator : MonoBehaviour
 
     public void ContorllerCollectionChek(AttackEffectObjectPoolName attackObjectName)
     {
-        var processIndex = autoAttackController.CollectionCheck(attackObjectName);
+        var processIndex = autoAttackController.LevelCheck(attackObjectName);
         Debug.Log($"processIndex:{processIndex}");
 
         if (processIndex == 0)

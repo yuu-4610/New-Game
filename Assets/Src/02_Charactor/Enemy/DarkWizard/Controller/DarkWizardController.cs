@@ -4,6 +4,7 @@ public class DarkWizardController : StateMachine<DarkWizardController, DarkWizar
 {
     private GameObject targetObject;
     private DarkWizardViewController darkWizardViewController;
+    private HPBarController hpBarController;
     public Vector2Int currentCell { get; private set; }
 
     private void Awake()
@@ -41,6 +42,11 @@ public class DarkWizardController : StateMachine<DarkWizardController, DarkWizar
     public GameObject GetGameObject()
     {
         return this.targetObject;
+    }
+
+    public void SetHPBarReference(HPBarController hpBarController)
+    {
+        this.hpBarController = hpBarController;
     }
 
     public void SetCurrentCell(Vector2Int currentCell)

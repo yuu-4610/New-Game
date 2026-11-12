@@ -15,10 +15,6 @@ public class CharacterStatusData
             if (string.IsNullOrWhiteSpace(lines[i])) continue;
 
             string[] values = lines[i].Split(',');
-
-            Debug.Log(values.Length);
-            Debug.Log(values[0]);
-            Debug.Log(values[1]);
             
             var charaId = values[0];
             var level = values[1];

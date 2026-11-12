@@ -33,6 +33,7 @@ public class AttackEffectPrefabPool : ObjectPoolBase
         {
             try
             {
+                //親オブジェクトの取得
                 var parentObject = GetOrCreatePanetObject(attackEffectNames[i]);
 
                 poolObjectDictionary.Add(attackEffectNames[i], new Stack<GameObject>());

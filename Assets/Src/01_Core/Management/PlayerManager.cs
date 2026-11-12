@@ -9,22 +9,25 @@ using static UnityEditor.Progress;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
+    [SerializeField] Camera uiCamera;
     [SerializeField] ExperiencePointSeachGrid experiencePointSeachGrid;
     [SerializeField] StackAttackControllerObject[] controllerObjectList;
     [SerializeField] AttackEffectPrefabPool attackEffectPrefabPool;
     [SerializeField] LevelUpBonusBoard levelUpBonusBoard;
+    [SerializeField] UIObjectPrefabPool uiObjectPrefabPool;
     //private GameObject Robject;
     private Dictionary<AttackEffectObjectPoolName, int> attackObjectLevel = new Dictionary<AttackEffectObjectPoolName, int>();
     private GameObject playerObject;
     private CSVImportProcessCall csvImportProcessCall;
     private PlayerController playerController;
     private AutoAttackController autoAttackController;
+    private HPBarController hpBarController;
     private string[][] csvCharaMasterData;
     private string[][] csvCharaStatusData;
     private float timeCount;
 
 
-    private void Start()
+    private void Awake()
     {
         csvImportProcessCall = new CSVImportProcessCall();
         FileImport();
@@ -45,7 +48,7 @@ public class PlayerManager : MonoBehaviour
         if (playerObject != null)
         {
             timeCount += Time.deltaTime;
-            if(timeCount > 2f)
+            if(timeCount > 3f)
             {
                 playerObject.GetComponent<IPlayer>().Damageable(2f);
                 timeCount = 0f;
@@ -71,12 +74,19 @@ public class PlayerManager : MonoBehaviour
         if (playerObject == null) playerObject = player;
         playerObject.transform.parent = this.gameObject.transform;
 
+        //プレイヤー下に出るHPバーの設定
+        var hpBarUI = uiObjectPrefabPool.Pop(UIObjectName.HPBar.ToString());
+        hpBarController = hpBarUI.GetComponent<HPBarController>();
+        //HPバーのValueの設定
+        //hpBarController.Initialize(playerObject, uiCamera, int.Parse(csvCharaStatusData[playerController.GetCurrentLevel()][2])); //HPをCSVで取得予定
+        hpBarController.Initialize(playerObject, uiCamera, 10); //HPをCSVで取得予定
+
         autoAttackController = playerObject.GetComponent<AutoAttackController>();
         //攻撃コントロールオブジェクトを渡す
         autoAttackController.SetControllerObject(attackObjects);
-
         playerController = playerObject.GetComponent<PlayerController>();
-        //ステータスセット
+        //プレイヤークラスの初期処理
+        playerController.Initialize(hpBarController);
         playerController.UpLeveling(int.Parse(csvCharaStatusData[playerController.GetCurrentLevel()][2]), int.Parse(csvCharaStatusData[playerController.GetCurrentLevel()][3]));
 
         //生成したプレイヤーオブジェクトの参照を登録
@@ -102,7 +112,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void ContorllerCollectionChek(AttackEffectObjectPoolName attackObjectName)
     {
-        var processIndex = autoAttackController.CollectionCheck(attackObjectName);
+        var processIndex = autoAttackController.LevelCheck(attackObjectName);
         Debug.Log($"processIndex:{processIndex}");
 
         if (processIndex == 0)
@@ -120,10 +130,12 @@ public class PlayerManager : MonoBehaviour
         }
         else if (processIndex == 1)
         {
-            //レベルアップ
-            autoAttackController.UpLeveling(attackObjectName);
             //コレクションの値の更新
             attackObjectLevel[attackObjectName] = autoAttackController.GetAttackLevel(attackObjectName) + 1;
+            //レベルアップ
+            autoAttackController.UpLeveling(attackObjectName);
+
+            Debug.Log($"{attackObjectName}レベル：{attackObjectLevel[attackObjectName]}");
             //最大レベルの場合、選択UIの候補から削除する
             if ((int)attackObjectLevel[attackObjectName] == 5)
             {

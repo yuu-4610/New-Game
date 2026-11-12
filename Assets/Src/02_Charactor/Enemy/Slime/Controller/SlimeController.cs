@@ -4,6 +4,7 @@ public class SlimeController : StateMachine<SlimeController, SlimeState>, IEnemy
 {
     private GameObject targetObject;
     private SlimeViewController slimeViewController;
+    private HPBarController hpBarController;
     public Rigidbody2D rigidbody2D { get; private set; }
     public Vector2 moveVectol { get; private set; }
     public float distanceDifference { get; private set; }
@@ -51,6 +52,10 @@ public class SlimeController : StateMachine<SlimeController, SlimeState>, IEnemy
     public void SetTargetObject(GameObject targetObject)
     {
         this.targetObject = targetObject;
+    }
+    public void SetHPBarReference(HPBarController hpBarController)
+    {
+        this.hpBarController = hpBarController;
     }
     public void SetCurrentCell(Vector2Int currentCell)
     {
